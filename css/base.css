@@ -1,0 +1,207 @@
+body { font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif; background-color: transparent; color: #333; -webkit-font-smoothing: antialiased; }
+.content { background: #fff; border: 1px solid; border-color: #e5e5e5 #dbdbdb #d2d2d2; -webkit-box-shadow: rgba(0,0,0,0.3) 0 1px 3px; -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px; box-shadow: rgba(0,0,0,0.3) 0 1px 3px; }
+
+h1,h2,h3,h4,h5,h6,strong { color:#000; }
+h1,h2,h3,h4 { font-weight: bold; }
+h2,h3,h4 { line-height: 18px; }
+h1,h2 { margin-bottom: 18px; }
+h1 { font-size: 24px; line-height: 36px; }
+h2 { font-size: 16px; }
+h3 { font-size: 1em; }
+h4 { font-size: 10px; }
+p { margin-bottom: 18px; }
+
+html, body { background:#f2f2f2; }
+/*Use of Cookies */
+#mainbody #main { margin:0 auto; min-width:982px; }
+#mainbody #main #content { margin:0 auto; width:880px; padding:20 50px 50px; }
+#mainbody #main #content h1 { margin-bottom:0; }
+#mainbody #main #content h1 { margin-bottom:18px; }
+
+#menupanel {
+float:right;width:175px;border-left: 1px solid #CCCCCC;margin: 0px 0;padding: 10px 15px 20px;text-align:left;
+}
+#menupanel ul {
+list-style: none outside none;margin:0;padding:0;
+}
+#menupanel ul li {
+background:url("../images/bullet.gif") no-repeat scroll 0 0.6em transparent;
+}
+#menupanel ul li a { 
+color: #0088CC;cursor: pointer;text-decoration: none;padding: 0 0 0 15px;
+}
+
+#cron {
+padding: 10px 15px 20px;
+}
+#cron ul {
+list-style: none outside none;margin:0;padding:0;
+}
+#cron ul li {
+background:url("../images/bullet.gif") no-repeat scroll 0 0.6em transparent;padding: 0 0 0 15px;
+}
+
+
+#tc_requirements li { background:url("../images/bullet.gif") no-repeat scroll 0 0.6em transparent;padding: 0 0 0 15px; }
+#errors li { background:url("../images/bullet.gif") no-repeat scroll 0 0.6em transparent;padding: 0 0 0 15px; }
+/* Header */
+#productheader {
+    background: url("../images/productheader_divider.jpg") no-repeat scroll center bottom transparent;
+}
+#productheader {
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 1em 0 0.2em;
+    width: 900px;
+}
+#productheader ul {
+    display: inline;
+    float: right;
+    margin: 0;
+}
+#productheader h2 {
+    width: 100px;
+}
+#productheader h1, #productheader h2 {
+    display: inline;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    margin-bottom: 6px !important;
+    margin-left: 8px;
+    margin-right: 0;
+    margin-top: 1px;
+    padding: 0;
+}
+h2 {
+    font-size: 16px;
+}
+ul {
+    list-style: none outside none;
+}
+#productheader ul li {
+    display: inline;
+}
+#productheader ul li a {
+    margin-left: 24px;
+}
+#productheader ul li a:hover {
+    color: #0088CC;
+}
+#tc_requirements li a:hover {
+    color: #0088CC;
+}
+#tc_requirements li a {
+    color: #333333;text-decoration: none;
+}
+#productheader ul li a {
+    color: #333333;
+    float: left !important;
+    margin-right: 8px;
+    margin-top: 1em;
+    padding: 0;
+    text-decoration: none;
+}
+#productheader li a {
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+
+/* Footer */
+#globalfooter {
+    color: #888888;
+    font-size: 10px;
+    margin: 18px auto 0;
+    padding-bottom: 36px;
+    text-align: left !important;
+    width: 980px;
+}
+.gf-sosumi {
+    border-top: 1px solid #DDDDDD;
+    clear: both;
+    padding-top: 9px;
+    width: 100%;
+}
+.gf-sosumi p {
+    float: left;
+    margin-left: 3px;
+}
+.piped {
+    display: block;
+}
+.piped li {
+    display: inline;
+    float: left;
+}
+#globalfooter a {
+    color: #0088CC;
+}
+#globalfooter ul.piped a {
+    padding: 0 0 0 1.5em;
+}
+
+.formrow {
+    margin: 0px 9px 0 0px;
+    position: relative;
+    width: auto;
+}
+.formrow label {
+    clear: both;
+    color: #333333;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 0 3px;
+}
+span.formwrap {
+    background: none repeat scroll 0 0 #EEEEEE;
+    display: inline-block;
+    margin-bottom: 7px;
+    padding: 3px !important;
+    margin-left: 0px;
+}
+.formwrap input {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D9D9D9;
+    padding: 3px 5px;
+    width: 294px;
+}
+.formrow select {
+   background: none repeat scroll 0 0 #FFFFFF;
+   width: 294px;
+   padding: 3px;
+   font-size: 16px;
+   border: 1px solid #D9D9D9;
+}
+
+.srch-button {
+    background: none repeat scroll 0 0 #0088CC;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 4 15px;
+    text-indent: 0;
+    width: auto;
+}
+.info, .success, .warning, .error, .validation {
+border: 1px solid;
+margin: 10px 0px;
+padding:15px 10px 15px 50px;
+background-repeat: no-repeat;
+background-position: 10px center;
+}
+.error {
+color: #D8000C;
+background-color: #FFBABA;
+background-image: url('../images/error.png');
+}
+.warning {
+color: #9F6000;
+background-color: #FEEFB3;
+background-image: url('../images/warning.png');
+}
+.success {
+color: #4F8A10;
+background-color: #DFF2BF;
+background-image:url('../images/success.png');
+}

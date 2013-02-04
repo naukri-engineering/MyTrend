@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    window.onload = function(){
+        new JsDatePick({
+            useMode:2,
+            target:"date1",
+            selectedDate:{  day:~$currentDD`,month:~$currentMM`,year:~$currentYY`},
+            //yearsRange:[2008,2012],
+            limitToToday:true,
+            cellColorScheme:"ocean_blue",
+            dateFormat:"%Y-%m-%d",
+            imgPath:"images/",
+            weekStartDay:1
+        });
+
+
+        new JsDatePick({
+            useMode:2,
+            target:"date2",
+            selectedDate:{  day:~$currentDD`,month:~$currentMM`,year:~$currentYY`},
+            //yearsRange:[2008,2012],
+            limitToToday:true,
+            cellColorScheme:"ocean_blue",
+            dateFormat:"%Y-%m-%d",
+            imgPath:"images/",
+            weekStartDay:1
+        });
+    };
+</script>

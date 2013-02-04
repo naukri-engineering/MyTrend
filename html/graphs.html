@@ -1,0 +1,202 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+		~include file=_title.html`
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						<!--<h1>What</h1>-->
+						<h3>Custom Graphs <span style='font-size:12px;font-weight:normal;'>- Generate Data comparison graphs for customized date range</span></h3>
+						<p>
+						~if $f eq 1`
+						Select a date range to generate "MySQL Instance" data graph trend
+						~elseif $f eq 2`
+						Select a MySQL Instance & date range to generate "Database" graph trend
+						~elseif $f eq 3`
+						Select a Database & date range to generate "Table-wise" graph trend
+						~elseif $f eq 7`
+						Generate graph trend for variable specific data.
+						~elseif $f eq 4`
+						Generate graph trend for MySQL Instance data.
+						~elseif $f eq 5`
+						Generate graph trend for Database.
+						~elseif $f eq 6`		
+						Generate graph trend for Table data.
+						~/if`
+						</p>			
+
+                        <div id='menupanel'>
+                            <p style='color:#677072;margin:0;padding:0;'>Choose Parameter :</p>
+                            <ul>
+                                <li>~if $f eq 1`<a href='#' style='color:black;'>Instance</a>~else`<a href='?f=1'>Instance</a>~/if`<li>
+                                <li>~if $f eq 2`<a href='#' style='color:black;'>Database</a>~else`<a href='?f=2'>Database</a>~/if`<li>
+                                <li>~if $f eq 3`<a href='#' style='color:black;'>Table</a>~else`<a href='?f=3'>Table</a>~/if`<li>
+				<li>~if $f eq 7`<a href='#' style='color:black;'>Variables</a>~else`<a href='?f=7'>Variables</a>~/if`<li>
+                            </ul>
+							<br/>
+                            <p style='color:#677072;margin:0;padding:0;'>Generate Distribution Chart for :</p>
+                            <ul>
+                                <li>~if $f eq 4`<a href='#' style='color:black;'>Instance</a>~else`<a href='?f=4'>Instance</a>~/if`<li>
+                                <li>~if $f eq 5`<a href='#' style='color:black;'>Database</a>~else`<a href='?f=5'>Database</a>~/if`<li>
+                                <li>~if $f eq 6`<a href='#' style='color:black;'>Table</a>~else`<a href='?f=6'>Table</a>~/if`<li>
+                            </ul>
+				<!--
+							<br/>
+                            <p style='color:#677072;margin:0;padding:0;'>Choose :</p>
+                            <ul>
+                                <li>~if $f eq 7`<a href='#' style='color:black;'>Variables</a>~else`<a href='?f=7'>Variables</a>~/if`<li>
+                            </ul>-->
+                        </div>
+
+						<div style='width:480px;float:left;'>
+						<div class="formrow" ~if $f eq '4'`style='display:none;'~/if`>
+							<label for="">MySQL Instance</label>
+							<span class="formwrap" id='instanceRow'>
+							<select onblur="getDatabase(this.value,'database');" id='instance' name='instance'>
+								<option value="-1">Select MySQL Instance:</option>
+								~section name=i loop=$instanceArr`
+								<option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id`selected~/if`>~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`</option>
+								~/section`
+							</select>
+							</span>
+						</div>
+
+                        <div class="formrow" ~if $f neq '7'`style='display:none;'~/if`>
+                            <label for="">MySQL Variable</label>
+                            <span class="formwrap" id='vRow'>
+                            <select id='v' name='v'>
+                                <option value="-1">Select MySQL Variable:</option>
+                                ~section name=i loop=$variables`
+                                <option name='~$variables[i]`' ~if $variables[i] eq $v`selected~/if`>~$variables[i]`</option>
+                                ~/section`
+                            </select>
+                            </span>
+                        </div>
+
+
+						<div class="formrow" ~if $f eq '1' || $f eq '4' || $f eq '5' || $f eq '7'`style='display:none;'~/if`>
+							<label for="">Database</label>
+							<span class="formwrap" id='databaseRow'>
+							<select id='database' name='database' onblur="getTable(gbi('instance').value,this.value,'table');">
+								<option value="-1">Select Database:</option>
+								~section name=i loop=$databaseArr`
+								<option value="~$databaseArr[i]`" ~if $databaseArr[i] eq $database`selected~/if`>~$databaseArr[i]`</option>
+								~/section`
+							</select>
+							</span>
+							<span id='databaseLoad' style='display:none;'><img src='images/loading.gif'></span>
+						</div>
+
+
+						<div class="formrow" ~if $f eq '1' || $f eq '2' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7'`style='display:none;'~/if`>
+							<label for="">Table</label>
+							<span class="formwrap" id='tableRow'>
+							<select id='table' name='table'>
+								<option value="-1">Select Table:</option>
+								~section name=i loop=$tableArr`
+								<option value="~$tableArr[i]`" ~if $tableArr[i] eq $table`selected~/if`>~$tableArr[i]`</option>
+								~/section`
+							</select>
+							</span>
+							<span id='tableLoad' style='display:none;'><img src='images/loading.gif'></span>
+						</div>
+
+<script>
+function showHide() {
+	if(gbi('type').value =='size') {
+		gbi('sizetypediv').style.display='';
+	}
+	else {
+		gbi('sizetypediv').style.display='none';
+	}
+}
+</script>
+
+						<div class="formrow" ~if $f eq '1' || $f eq '2' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7'`style='display:none;'~/if`>
+							<label for="">Type</label>
+							<span class="formwrap">
+							<select name='type' id='type' onblur="showHide()";>
+								<option value="size" ~if $type eq 'size'`selected~/if`>Data Size</option>
+								<option value="rows">Rows</option>
+								
+							</select>
+							</span>
+						</div>
+
+                        <div class="formrow" ~if $f eq '3' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7'`style='display:none;'~/if` id='sizetypediv'>
+                            <label for="">Size in</label>
+                            <span class="formwrap">
+                            <select id='sizetype' name='sizetype'>
+                                <option value="Byte">Byte</option>
+                                <option value="Kilobyte">Kilobyte</option>
+                                <option value="Megabyte">Megabyte</option>
+                                <option value="Gigabyte" selected>Gigabyte</option>
+                            </select>
+                            </span>
+                        </div>
+
+
+                        <div class="formrow">
+                            <label for="">Date</label>
+							~if $f eq '4' || $f eq '5' || $f eq '6'`
+                            <span class="formwrap" id='date1Row'><input type="text" id='date1' name='date1'></span>
+                            <span style='display:none;'><input type="text" id='date2' name='date2' value='1'></span>
+							~else`
+                            <span class="formwrap" id='date1Row'>From Date <input type="text" id='date1' style='width:90px;' name='date1' value='~$date1`'></span>
+                            <span class="formwrap" id='date2Row'>To Date <input type="text" id='date2' style='width:90px;' name='date2' value='~$date2`'></span>
+							~/if`
+                        </div>
+
+
+						<div class="formrow">
+							<span class="formwrap">
+							
+							~if $f eq '1'`
+							<button class="srch-button" type="submit" onClick="getGraph_Instance('graph',gbi('sizetype').value,gbi('instance').value,gbi('date1').value,gbi('date2').value,'~$f`');">Generate Graph</button>
+							~elseif $f eq '2'`
+							<button class="srch-button" type="submit" onClick="getGraph_Database('graph',gbi('sizetype').value,gbi('instance').value,gbi('database').value,gbi('date1').value,gbi('date2').value,'~$f`');">Generate Graph</button>
+							~elseif $f eq '3'`
+							<button class="srch-button" type="submit" onClick="getGraph_Table('graph',gbi('sizetype').value,gbi('instance').value,gbi('database').value,gbi('table').value,gbi('type').value,gbi('date1').value,gbi('date2').value,'~$f`');">Generate Graph</button>
+							~elseif $f eq '4'`
+							<button class="srch-button" type="submit" onClick="getGraph_InstanceDistribution('graph',gbi('date1').value,'~$f`');">Generate Graph</button>
+							~elseif $f eq '5'`
+							<button class="srch-button" type="submit" onClick="getGraph_DatabaseDistribution('graph',gbi('instance').value,gbi('date1').value,'~$f`');">Generate Graph</button>
+							~elseif $f eq '6'`
+							<button class="srch-button" type="submit" onClick="getGraph_TableDistribution('graph',gbi('instance').value,gbi('database').value,gbi('date1').value,'~$f`');">Generate Graph</button>
+							~elseif $f eq '7'`
+							<button class="srch-button" type="submit" onClick="getGraph_Status('graph',gbi('instance').value,gbi('v').value,gbi('date1').value,gbi('date2').value,'~$f`');">Generate Graph</button>
+							~/if`
+							</span>
+							<span id='graphLoad' style='display:none;'><img src='images/loading.gif'></span>
+						</div>
+						</div>
+					</div>
+
+					<div style='clear:both;'></div>
+
+					<div class='column' id='graph'></div>
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+
+        ~include file=_cal.html`
+        ~if $onload eq 'yes'`
+            ~if $f eq '1'`
+            <script>window.onload = getGraph_Instance('graph','','~$mysql_id`','~$date1`','~$date2`','~$f`');</script>
+			~elseif $f eq '2'`
+			<script>window.onload = getGraph_Database('graph','','~$mysql_id`','~$database`','~$date1`','~$date2`','~$f`');</script>
+			~elseif $f eq '3'`
+            <script>window.onload = getGraph_Table('graph','','~$mysql_id`','~$database`','~$table`','','~$date1`','~$date2`','~$f`');</script>
+            ~elseif $f eq '7'`
+            <script>window.onload = getGraph_Status('graph','~$mysql_id`','~$v`','~$date1`','~$date2`','~$f`');</script>
+            ~/if`
+        ~/if`
+
+
+		
+		~include file=_footer.html`
+	</body>
+</html>

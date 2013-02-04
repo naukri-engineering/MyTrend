@@ -1,0 +1,23 @@
+<div id="productheader">
+	<img src='images/chart.png' style='float:left' width=50 height=50><h2 style='width:220px;line-height:40px;'><span style='color:#015A84;'>My</span><span style='color:#E97B00;'>Trend</span></h2>
+	~if $DoNotDisplayLinks neq '1'`
+		<ul>
+			<li id="pn-features"><a href="stats.php">Stats</a></li>
+			<li id="pn-design"><a href="graphs.php">Graphs</a></li>  
+            <li id="pn-design"><a href="replication.php">Replication</a></li>  
+			<li id="pn-design"><a href="processlist.php">Processlist</a></li>  
+			~if $role neq 'admin' `
+				<li id="pn-features"><a href="configure.php">Configure</a></li>
+			~/if`
+			~if $AUTH eq '1'`
+				~if $role neq 'admin' `
+					<li id="pn-features"><a href="password.php">Change Password</a></li>
+				~/if`
+				<li id="pn-features"><a href="logout.php">Logout</a></li>
+			~/if`
+		</ul>
+	~/if`
+</div>
+<noscript>
+	<div class="warning">JavaScript must be enabled to use this. Please enable JavaScript in your browser and refresh the page.</div>
+</noscript>

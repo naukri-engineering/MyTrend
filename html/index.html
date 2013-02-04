@@ -1,0 +1,34 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+		~include file=_title.html`
+		~include file=_watch.html`
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						~if $error`<div class='error'>~$error`</div>~/if`
+						~if $success`<div class='success'>~$success`</div>~/if`
+						<div id='container'></div>	
+						~if $AUTH neq '1'`
+                        <div class="formrow">
+							<center>
+							<form name=frm id=frm method=post action=index.php>
+							Login as <input type=radio name=role value='superadmin' checked>SuperAdmin
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type=radio name=role value='admin'>Admin<br/><br/>
+                            <span class="formwrap"><input type="text" value='Password' id='password' style='width:290px;' name='password' onClick="setPassword()" autocomplete='off'></span><br/>
+							<button class="srch-button" type="submit" name='submit' value='1' >Login</button>
+							</form>
+							</center>
+                        </div>
+						~/if`
+					</div>
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+		~include file=_footer.html`
+	</body>
+</html>

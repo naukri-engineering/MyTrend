@@ -1,0 +1,123 @@
+<!-- =========================== Instance ==========================  -->
+	~if $f eq '1'`
+<script id='data1script'>
+$(document).ready(function() {
+    $('#table1').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+} );
+</script>
+
+<table cellpadding="0" cellspacing="0" border="0" class="display" id='table1' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
+	<thead style='background-color:#08C;color:white;text-align:left;'>
+        <tr>
+        <th>Instance</th><th>Size (~$date1`)</th><th>Size (~$date2`)</th><th>Change</th><th>% Change</th><th>Expand</th><th>Graph</th>
+        </tr>
+	</thead>
+	<tbody>
+		~section name=i loop=$data`
+       	<tr>
+		<td>~$data[i].instance`</td><td>~$data[i].size1`</td><td>~$data[i].size2`</td><td>~$data[i].change`</td><td>~$data[i].sizechange`</td>
+		<td align=center><a href='#' onClick="getStats_DatabaseData('data2','~$data[i].mysql_id`','~$sizetype`','~$date1`','~$date2`','2','')" style='text-decoration:none;'><img src='images/expandall.gif' width=20 height=20 border=0></a></td>
+		<td align=center>
+			<a target=_blank href='graphs.php?f=~$f`&mysql_id=~$data[i].mysql_id`&date1=~$date1`&date2=~$date2`' style='text-decoration:none;'><img src='images/icon_graph.gif' width=20 height=20 border=0></a>
+		</td>
+		</tr>
+		~/section`
+	</tbody>
+</table>
+<br/><br/>
+	~/if`
+
+
+<!-- =========================== Database ==========================  -->
+	~if $f eq '2'`
+<script id='data2script'>
+$(document).ready(function() {
+    $('#table2').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+} );
+</script>
+<table cellpadding="0" cellspacing="0" border="0" class="display" id='table2' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
+	<thead style='background-color:#F57207;color:white;text-align:left;'>
+        <tr>
+        <th>Database</th><th>Size (~$date1`)</th><th>Size (~$date2`)</th><th>Change</th><th>% Change</th><th>Expand</th><th>Graph</th>
+        </tr>
+	</thead>
+	<tbody>
+		~section name=i loop=$data`
+        ~if $smarty.section.i.index%2 eq '0'`
+        <tr style='background-color:#F7C194;'>
+        ~else`
+       	<tr>
+		~/if`
+		<td>~$data[i].database`</td><td>~$data[i].size1`</td><td>~$data[i].size2`</td><td>~$data[i].change`</td><td>~$data[i].sizechange`</td>
+
+        <td align=center><a href='#' onClick="getStats_TableData('data3','~$data[i].mysql_id`','~$data[i].database`','~$sizetype`','~$date1`','~$date2`','3','')" style='text-decoration:none;'><img src='images/expandall.gif' width=20 height=20 border=0></a></td>
+        <td align=center>
+		<a target=_blank href='graphs.php?f=~$f`&mysql_id=~$data[i].mysql_id`&database=~$data[i].database`&date1=~$date1`&date2=~$date2`' style='text-decoration:none;'><img src='images/icon_graph.gif' width=20 height=20 border=0></a>
+		</td>
+
+		</tr>
+		~/section`
+	</tbody>
+</table>
+	~/if`
+
+<!-- =========================== Table ==========================  -->
+
+	~if $f eq '3'`
+<script id='data3script'>
+$(document).ready(function() {
+    $('#table3').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+} );
+</script>
+<table cellpadding="0" cellspacing="0" border="0" class="display" id='table3' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
+	<thead style='background-color:#379E03;color:white;'>
+        <tr>
+        <th>Table</th><th>Rows (~$date1`)</th><th>Rows (~$date2`)</th><th>Size (~$date1`)</th><th>Size (~$date2`)</th><th>Size Change</th><th>Rows (Change %)</th><th>Size (Change %)</th><th>Graph</th>
+        </tr>
+	</thead>
+	<tbody>
+		~section name=i loop=$data`
+		~if $smarty.section.i.index%2 eq '0'`
+       	<tr style='background-color:#C0F7A6;'>
+		~else`
+		<tr>
+		~/if`
+		<td>~$data[i].table`</td><td>~$data[i].rows1`</td><td>~$data[i].rows2`</td><td>~$data[i].size1`</td><td>~$data[i].size2`</td><td>~$data[i].change`</td><td>~$data[i].rowschange`</td><td>~$data[i].sizechange`</td>
+		<td align=center>
+		<a target=_blank href='graphs.php?f=~$f`&mysql_id=~$data[i].mysql_id`&database=~$data[i].database`&table=~$data[i].table`&date1=~$date1`&date2=~$date2`' style='text-decoration:none;'><img src='images/icon_graph.gif' width=20 height=20 border=0></a>
+		</td>
+</tr>
+		~/section`
+	</tbody>
+</table>
+~/if`
+
+
+<!-- =========================== Instance ==========================  -->
+    ~if $f eq '7'`
+<script id='data1script'>
+$(document).ready(function() {
+    $('#table1').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+} );
+</script>
+
+<table cellpadding="0" cellspacing="0" border="0" class="display" id='table1' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
+    <thead style='background-color:#08C;color:white;text-align:left;'>
+        <tr>
+        <th>Instance</th><th># (~$date1`)</th><th># (~$date2`)</th><th>Change</th><th># (Change %)</th><th>Graph</th>
+        </tr>
+    </thead>
+    <tbody>
+        ~section name=i loop=$data`
+        <tr>
+        <td>~$data[i].instance`</td><td>~$data[i].value1`</td><td>~$data[i].value2`</td><td>~$data[i].change`</td><td>~$data[i].per_change`</td>
+        <td align=center>
+            <a target=_blank href='graphs.php?f=~$f`&mysql_id=~$data[i].mysql_id`&date1=~$date1`&date2=~$date2`&v=~$v`' style='text-decoration:none;'><img src='images/icon_graph.gif' width=20 height=20 border=0></a>
+        </td>
+        </tr>
+        ~/section`
+    </tbody>
+</table>
+<br/><br/>
+    ~/if`
+

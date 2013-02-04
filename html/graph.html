@@ -1,0 +1,138 @@
+<script id='chartscript'>
+~if $f eq '4' || $f eq '5' || $f eq '6'`
+$(function () {
+    var chart;
+    $(document).ready(function() {
+    	
+    	// Radialize the colors
+		Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function(color) {
+		    return {
+		        radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+		        stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+		        ]
+		    };
+		});
+		
+		// Build the chart
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: null
+            },
+            tooltip: {
+        	    pointFormat: '<b>{point.percentage}%</b>',
+            	percentageDecimals: 1
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ (this.percentage).toFixed(2) +' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: null,
+                data: [
+					~$series`
+                ]
+            }]
+        });
+    });
+    
+});
+
+~else`
+$(function () {
+    var chart;
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                zoomType: 'x',
+                spacingRight: 20
+            },
+            title: {
+                text: null
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                type: 'datetime',
+                //maxZoom: 10 * 24 * 3600000, // fourteen days
+                title: {
+                    text: null
+                }
+				
+            },
+            yAxis: {
+                title: {
+                    text: '~$type`'
+                },
+                min: 0.6,
+                startOnTick: false,
+                showFirstLabel: false
+            },
+            tooltip: {
+                shared: true
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, 'rgba(2,0,0,0)']
+                        ]
+                    },
+                    lineWidth: 1,
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                radius: 5
+                            }
+                        }
+                    },
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    }
+                }
+            },
+    
+            series: [{
+                type: 'area',
+                name: '~$type`',
+                pointInterval: 24 * 3600 * 1000,
+                pointStart: Date.UTC(~$yy`, ~$mm`-1, ~$dd`),
+                data: [ ~$series`]
+            }]
+        });
+    });
+    
+});
+~/if`
+</script>
+<div class='column' id='container'></div>

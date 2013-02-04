@@ -1,0 +1,219 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+		~include file=_title.html`
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						<!--<h1>What</h1>-->
+						~if $f eq '1'`
+						<h3>"MySQL Instance" Configuration Dashboard</h3>
+						<p>Manage Database Configuration details required for data storage<br/>
+						<br/><b>Note : </b>Server should have atleast following Privileges : SELECT, PROCESS, REPLICATION SLAVE, REPLICATION CLIENT 
+						</p>
+						~elseif $f eq '2'`
+						<h3>Exclude Database(s)</h3>
+						<p>Select database(s) to be excluded from the MyTrend stats</p>
+						~elseif $f eq '3'`
+						<h3>Data storage scheduler (Cron)</h3>
+						<p>Set data scheduler on your server using the command below (Please ensure that this cron is set on the same server where MyTrend has been installed)</p>
+						~elseif $f eq '4'`
+						<h3>MySQL Status Variables</h3>
+						<p>Select MySQL status variables required for data logging. Learn more on <a href='http://dev.mysql.com/doc/refman/5.0/en/server-status-variables.html' target=_blank style='text-decoration:none;color:#0088CC;'>"MySQL status variables"</a>
+						</p>
+						~/if`
+
+
+                        <div id='menupanel'>
+                            <p style='color:#677072;margin:0;padding:0;'>Choose :</p>
+                            <ul>
+                                <li>~if $f eq '1'`<a href='?f=1' style='color:black;'>Instances</a>~else`<a href='?f=1'>Instances</a>~/if`<li>
+                                <li>~if $f eq '2'`<a href='?f=2' style='color:black;'>Exclude Database(s)</a>~else`<a href='?f=2' >Exclude Database(s)</a>~/if`<li>
+                                <li>~if $f eq '4'`<a href='?f=4' style='color:black;'>Status Variable(s)</a>~else`<a href='?f=4' >Status Variable(s)</a>~/if`<li>
+                                <li>~if $f eq '3'`<a href='?f=3' style='color:black;'>Cron</a>~else`<a href='?f=3' >Cron</a>~/if`<li>
+                            </ul>
+                        </div>
+
+
+						<div style='float:left;width:660px;'>
+					
+						~if $error`<div class='error'>~$error`</div>~/if`					
+						~if $success`<div class='success'>~$success`</div>~/if`
+	
+						~if $f eq '1'`
+                        <div style='background-color: #F9F9F9;text-align:left;'>
+                                <span style='padding-left:2px;'><b>Server Name</b></span>
+                                <span style='padding-left:60px;'><b>Host</b></span>
+                                <span style='padding-left:110px;'><b>Port</b></span>
+                                <span style='padding-left:45px;'><b>Username</b></span>
+                                <span style='padding-left:45px;'><b>Password</b></span>
+                        </div>
+
+						~section name=i loop=$instanceArr`
+						~if $smarty.section.i.index%2 neq 0`
+						<div style='background-color: #F9F9F9;'>
+						~else`
+						<div>
+						~/if`
+								<form method=post>
+                                <span class="formwrap"><input type=text name='name' value='~$instanceArr[i].name`' style='width:130px;' ></span>
+                                <span class="formwrap"><input type=text name='host' value='~$instanceArr[i].host`' style='width:130px;' ></span>
+                                <span class="formwrap"><input type=text name='port' value='~$instanceArr[i].port`' style='width:60px;'></span>
+                                <span class="formwrap"><input type=text name='username' value='~$instanceArr[i].username`' style='width:100px;'></span>
+                                <span class="formwrap"><input type=password name='password' value='~$instanceArr[i].password`' style='width:110px;'></span>
+								<span>
+								 ~if $instanceArr[i].status eq '1'`<img src='images/pass.png'>~else`<img src='images/fail.png'>~/if`
+								<button type="submit" style='height:25px;background: none repeat scroll 0 0 #0088CC;color: #FFFFFF;font-size: 11px;padding: 0 2px;text-indent: 0;width: auto;'>Update</button>
+								</span>
+								<input type=hidden name=submit value='edit'>
+								<input type=hidden name=f value='1'>
+								<input type=hidden name=mysql_id value='~$instanceArr[i].mysql_id`'>
+								</form>
+						</div>
+						~/section`
+						<div>
+								<form method=post>
+                                <span class="formwrap"><input type=text name='name' value='~$name`' style='width:130px;' ></span>
+                                <span class="formwrap"><input type=text name='host' value='~$host`' style='width:130px;' ></span>
+                                <span class="formwrap"><input type=text name='port' value='~$port`' style='width:60px;'></span>
+                                <span class="formwrap"><input type=text name='username' value='~$username`' style='width:100px;'></span>
+                                <span class="formwrap"><input type=password name='password' value='~$password`' style='width:110px;'></span>
+				<span>&nbsp;&nbsp;&nbsp;&nbsp;
+				</span>
+                                <span><button type="submit" style='height:25px;background: none repeat scroll 0 0 #0088CC;color: #FFFFFF;font-size: 11px;padding: 0 10px;text-indent: 0;width: auto;'>Add</button></span>
+								<input type=hidden name=submit value='add'>
+								<input type=hidden name=f value='1'>
+								</form>
+						</div>
+						~/if`
+
+<!-- ============= Ignore Databases ============== -->
+						~if $f eq '2'`
+
+                        <div class="formrow">
+							<form method=post>
+                            <label for="">MySQL Instance</label>
+                            <span class="formwrap">
+                            <select id='mysql_id' name='mysql_id'>
+                                <option value="-1">Select MySQL Instance:</option>
+                                ~section name=i loop=$instanceArr`
+                                <option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id`selected~/if`>
+									~$instanceArr[i].host` (~$instanceArr[i].port`)
+								</option>
+                                ~/section`
+                            </select>
+                            </span>
+							<button class="srch-button" type="submit" style='padding:1px 3px;'>Show Databases</button>
+							<input type=hidden name=f value='~$f`'>
+							<input type=hidden name='submit' value='show'>
+							</form>
+                        </div>
+
+						~if $databases`
+						<form method=post>
+	                        <div class="formrow">
+    	                        <label for="">Database <span style='color:grey;'>(Select multiple, press ctrl key)</span></label>
+        	                    <span class="formwrap">
+            	                <select id='database' name='database[]' multiple>
+								~section name=i loop=$databases`
+								<option value="~$databases[i].db`" ~$databases[i].selected`>~$databases[i].db`</option>
+								~/section`
+                            	</select>
+
+	                            </span>
+        	                </div>
+
+							<div class="formrow">
+							<button class="srch-button" type="submit">Exclude Database(s)</button>
+							</div>
+							<input type=hidden name=f value='~$f`'>
+							<input type=hidden name='submit' value='add'>
+							<input type=hidden name='mysql_id' value='~$mysql_id`'>
+						</form>
+						~/if`
+
+
+
+						~/if`
+
+
+<!-- ================== CRON =================== -->
+						~if $f eq '3'`
+<p style='color:#677072;margin:0;padding:0;'>Cron</p>
+<div id='cron'>
+<ul>
+<li>1 0 * * * /usr/local/php/bin/php   /path/to/your/installation/cronMyTrend.php   D  EMAIL (Optional)<li>
+</ul>
+</div>
+<br/>
+
+<p style='color:#677072;margin:0;padding:0;'>Parameters</p>
+<div id='cron'>
+<ul>
+<li>Parameter 1 - D <b>(Mandatory)</b></li>
+<li>Parameter 2 - Email Id (Optional) - Specify the email Id to get the daily status of this cron</li>
+</ul>
+</div>
+
+<br/>
+<p style='color:#677072;margin:0;padding:0;'>Example</p>
+<div id='cron'>
+<ul>
+<li>1 0 * * * /usr/local/php/bin/php /var/www/html/MyTrend/installation/cronMyTrend.php D email@example.com<li>
+</ul>
+</div>
+
+
+						~/if`
+
+
+<!-- ================== Variables ============== -->
+						~if $f eq '4'`
+                        <form method=post>
+                            <div class="formrow">
+                                <label for=""><span style='color:grey;'>(Select multiple, press ctrl key)</span></label>
+                                <span class="formwrap">
+				<label for="">Status Variables<span style='color:grey;'></span></label>
+                                <select id='variables' name='variables[]' multiple>
+                                ~section name=i loop=$variables`
+                                <option value="~$variables[i].variable`" ~$variables[i].selected`>~$variables[i].variable`</option>
+                                ~/section`
+                                </select>
+                                </span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span class="formwrap">
+				<label for="">Selected Variables <span style='color:grey;'></span></label>
+                                <select id='variables' name='variables[]' multiple disabled>
+                                ~section name=i loop=$variables`
+				~if $variables[i].selected`
+                                <option value="~$variables[i].variable`">~$variables[i].variable`</option>
+				~/if`
+                                ~/section`
+                                </select>
+                                </span>
+                            </div>
+
+                            <div class="formrow">
+                            <button class="srch-button" type="submit">Select Status Variables</button>
+                            </div>
+                            <input type=hidden name=f value='~$f`'>
+                            <input type=hidden name='submit' value='add'>
+                        </form>
+						~/if`
+
+						</div>
+					</div>
+
+					<div style='clear:both;'></div>
+
+					<div class='column' id='data'></div>
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+		
+		~include file=_footer.html`
+	</body>
+</html>

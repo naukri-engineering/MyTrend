@@ -1,0 +1,132 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+	~include file=_title.html`	
+	~include file=_cal.html`
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						<!--<h1>What</h1>-->
+						<h3>MyTrend Stats <span style="font-size:12px;font-weight:normal;"> - MySQL data comparison for customized date range</span></h3>
+						<p>
+						~if $f eq '1'`
+						Select a date range to generate "MySQL Instance" data comparison report.
+						~elseif $f eq '2'`
+						Select a MySQL Instance & date range to generate "Database" comparison report.
+						~elseif $f eq '3'`
+						Select a Database & date range to generate "Table-wise" data comparison report.
+						~elseif $f eq '7'`
+						Select a date range to generate variable specific data comparison report.
+						~/if`
+						</p>			
+
+						<div id='menupanel'>
+							<p style='color:#677072;margin:0;padding:0;'>Choose Parameter :</p>
+                            <ul>
+                                <li>~if $f eq 1`<a href='?f=1' style='color:black;'>Instance</a>~else`<a href='?f=1'>Instance</a>~/if`</li>
+                                <li>~if $f eq 2`<a href='?f=2' style='color:black;'>Database</a>~else`<a href='?f=2' >Database</a>~/if`</li>
+                                <li>~if $f eq 3`<a href='?f=3' style='color:black;'>Table</a>~else`<a href='?f=3' >Table</a>~/if`</li>
+				<li>~if $f eq 7`<a href='#' style='color:black;'>Variables</a>~else`<a href='?f=7'>Variables</a>~/if`<li>
+                            </ul>
+				<!--
+                            <br> 
+							<p style='color:#677072;margin:0;padding:0;'>Choose :</p>
+                            <ul>
+                                <li>~if $f eq 7`<a href='#' style='color:black;'>Variables</a>~else`<a href='?f=7'>Variables</a>~/if`<li>
+							</ul>-->
+						</div>
+						<div style='width:480px;float:left;'>
+						<div class="formrow" ~if $f eq '1' || $f eq '7'`style='display:none;'~/if`>
+							<label for="">MySQL Instance</label>
+							<span class="formwrap" id='instanceRow'>
+							<select onblur="getDatabase(this.value,'database');" id='instance' name='instance'>
+								<option value="-1">Select MySQL Instance:</option>
+								~section name=i loop=$instanceArr`
+								<option value="~$instanceArr[i].mysql_id`">~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`</option>
+								~/section`
+							</select>
+							</span>
+						</div>
+
+
+						<div class="formrow" ~if $f eq '1' || $f eq '2' || $f eq '7'`style='display:none;'~/if`>
+							<label for="">Database</label>
+							<span class="formwrap" id='databaseRow'>
+							<select id='database' name='database'>
+								<option value="-1">Select Database:</option>
+							</select>
+							</span>
+							<span id='databaseLoad' style='display:none;'><img src='images/loading.gif'></span>
+						</div>
+
+
+						<div class="formrow" ~if $f eq '7'`style='display:none;'~/if`>
+							<label for="">Size in</label>
+							<span class="formwrap" id='sizetypeRow'>
+							<select id='sizetype' name='sizetype'>
+								<option value="Byte">Byte</option>
+								<option value="Kilobyte">Kilobyte</option>
+								<option value="Megabyte">Megabyte</option>
+								<option value="Gigabyte" selected>Gigabyte</option>
+							</select>
+							</span>
+						</div>
+
+
+						<div class="formrow" ~if $f neq '7'`style='display:none;'~/if`>
+							<label for="">MySQL Variable</label>
+							<span class="formwrap" id='vRow'>
+							<select id='v' name='v'>
+								<option value="-1">Select MySQL Variable:</option>
+								~section name=i loop=$variables`
+								<option name='~$variables[i]`'>~$variables[i]`</option>
+								~/section`
+							</select>
+							</span>
+						</div>
+
+                        <div class="formrow">
+                            <label for="">Compare Data for</label>
+                            <span class="formwrap" id='date1Row'>Start Date <input type="text" id='date1' style='width:85px;' name='date1'></span>
+                            <span class="formwrap" id='date2Row'>End Date <input type="text" id='date2' style='width:90px;' name='date2' ></span>
+                        </div>
+
+
+						<div class="formrow">
+							<span class="formwrap">
+							~if $f eq '1'`
+							<button class="srch-button" type="submit" onClick="getStats_InstanceData('data1',gbi('sizetype').value,gbi('date1').value,gbi('date2').value,'~$f`','hide');">Compare Data</button>
+							~elseif $f eq '2'`
+							<button class="srch-button" type="submit" onClick="getStats_DatabaseData('data2',gbi('instance').value,gbi('sizetype').value,gbi('date1').value,gbi('date2').value,'~$f`','hide');">Compare Data</button>
+							~elseif $f eq '3'`
+							<button class="srch-button" type="submit" onClick="getStats_TableData('data3',gbi('instance').value,gbi('database').value,gbi('sizetype').value,gbi('date1').value,gbi('date2').value,'~$f`','hide');">Compare Data</button>
+                            ~elseif $f eq '7'`
+                            <button class="srch-button" type="submit" onClick="getStats_Status('data1',gbi('v').value,gbi('date1').value,gbi('date2').value,'~$f`','hide');">Compare Data</button>
+							~/if`
+							</span>
+							<span id='dataLoad' style='display:none;'><img src='images/loading.gif'></span>
+						</div>
+						</div>
+					</div>
+
+					<div style='clear:both;' id='data1Clear'></div>
+					<span id='data1Load' style='display:none;'><img src='images/loading.gif'></span>
+					<div class='column' id='data1' style='display:none;border:1px solid #08C;padding:5 5 30 5px;'></div>
+
+					<div style='clear:both;' id='data2Clear'></div>
+					<span id='data2Load' style='display:none;'><img src='images/loading.gif'></span>
+					<div class='column' id='data2' style='display:none;border:1px solid #F57207;padding:5 5 30 5px;'></div>
+
+					<div style='clear:both;' id='data3Clear'></div>
+					<span id='data3Load' style='display:none;'><img src='images/loading.gif'></span>
+					<div class='column' id='data3' style='display:none;border:1px solid #379E03;padding:5 5 30 5px;'></div>
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+		
+		~include file=_footer.html`
+	</body>
+</html>

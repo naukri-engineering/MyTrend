@@ -1,0 +1,99 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+	~include file=_title.html`	
+~if $mysql_id`
+<script>
+window.onload = function(){
+		var f=true;
+		setInterval(function(){if(f){location.reload()}},5000);     
+		document.getElementById('stop').onclick = function(){
+			f=false;
+		}
+}
+</script>
+~/if`
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						<h3>Processlist</h3>
+                        <p>
+                        Check the current processlist.
+						</p>			
+                        <div>
+                        <form name='processlist' onsubmit="return validation('processlist',0);">
+						<div class="formrow">
+							<label for="">MySQL Instance</label>
+							<span class="formwrap" id='instanceRow'>
+							<select id='instance' name='instance'>
+								<option value="-1">Select MySQL Instance:</option>
+								~section name=i loop=$instanceArr`
+                                <option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id` selected ~/if`>
+                                ~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`
+                                </option>
+								~/section`
+							</select>
+							</span>
+&nbsp;&nbsp;&nbsp;|&nbsp;<b>Refresh interval</b> <span class="formwrap"><input type=text name=interval value='~$interval`' style='width:50px;'></span> Second(s)
+&nbsp;&nbsp;&nbsp;|&nbsp;<a href='#' id='stop' style='color:#0088CC;'>Pause auto-refresh</a>
+						</div>
+						<div class="formrow">
+							<span class="formwrap"><button class="srch-button" type="submit">Show Processlist</button></span>
+                        </div>
+                        </form>
+						</div>
+					</div>
+
+					<div style='clear:both;'></div>
+                    ~if $arrProcesslist`
+                    <div class='column' id='data1'>
+                        <script id='data1script'>
+                            $(document).ready(function() {
+                                $('#table1').dataTable( {
+								    "aaSorting": [[ 5, "desc" ]],
+                                    "bScrollInfinite": true,
+                                    "bScrollCollapse": true,
+								    "iDisplayLength": 1000
+                                });
+                            } );
+                        </script>
+                        <table cellpadding="0" cellspacing="0" border="0" class="display" id='table1' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
+                             <thead style='background-color:#08C;color:white;text-align:left;'>
+                                <tr>
+                                <th>Id</th>
+                                <th>User</th>    
+                                <th>Host</th>    
+                                <th>Db</th>  
+                                <th>Command</th> 
+                                <th>Time(Sec)</th>   
+                                <th>State</th>   
+                                <th>Info</th>    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            ~section name=i loop=$arrProcesslist`
+                                <tr>
+                                <td>~$arrProcesslist[i].Id`</td>
+                                <td>~$arrProcesslist[i].User`</td>
+                                <td>~$arrProcesslist[i].Host`</td>
+                                <td>~$arrProcesslist[i].db`</td>
+                                <td>~$arrProcesslist[i].Command`</td>
+                                <td>~$arrProcesslist[i].Time`</td>
+                                <td>~$arrProcesslist[i].State`</td>
+                                <td>~$arrProcesslist[i].Info`</td>
+                                </tr>
+                            ~/section`
+                            </tbody>
+						</table>
+                    </div>
+                    ~/if`
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+		
+		~include file=_footer.html`
+	</body>
+</html>

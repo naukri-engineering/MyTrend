@@ -1,0 +1,177 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+		<title>MyTrend</title>
+		<link rel="stylesheet" href="css/base.css" type="text/css">
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						
+						<br/>
+						~if $step neq '0'`
+                        <div id='menupanel'>
+							<p style="color: rgb(103, 112, 114); margin: 0pt; padding: 0pt;">Steps :</p>
+                            <ul>
+                                <li><span style='padding:0 0 0 15px;~if $step eq 1` color:black;font-weight:bold; ~elseif $step gt 1`color:green; ~else` color:grey; ~/if`'>Terms & Conditons</span><li>
+                                <li><span style='padding:0 0 0 15px;~if $step eq 2` color:black;font-weight:bold; ~elseif $step gt 2`color:green; ~else` color:grey; ~/if`'>Set up database</span><li>
+                                <li><span style='padding:0 0 0 15px;~if $step eq 3` color:black;font-weight:bold; ~elseif $step gt 3`color:green; ~else` color:grey; ~/if`'>Choose Password</span><li>
+                                <li><span style='padding:0 0 0 15px;~if $step eq 4` color:green; ~/if`'>Finished</span><li>
+                            </ul>
+                        </div>
+						~/if`
+
+						<div style='width:650px;float:left;'>
+						<!-- *************************************** -->
+						<!-- STEP 1 -->
+						<!-- *************************************** -->
+                     	~if $step eq '1'`
+	                        <h2>Terms & Conditions</h2>
+							I understand and agree that
+    	                    <ul id='tc_requirements'>
+
+								<li>MyTrend and other software products used in MyTrend, including but not restricted to 'Highsoft Software Product' are not free for commercial use.<br/><br/></li>
+								<li>I would not use these products as a whole or as an underlying application for any commercial benefit(s).<br/><br/></li>
+								<li>All 'Highsoft Software Products' can be accessed from <a href='http://highcharts.com/' target=_blank>here.</a></li>
+	                       	</ul>
+							<br/>
+    	                  	<!--http://css.dzone.com/news/css-message-boxes-different-me -->
+        	               	~if $error`
+								<div class="error">~$error`</div>
+							~/if`
+                        		<div class="formrow">
+	                            <form>
+    	                            <input type=hidden name=confirm value='yes'>
+        	                        <span class="formwrap">
+            	                        <button class="srch-button" type="submit" ~if $error` disabled style='background:white;color:#0088CC;'~/if`>I Agree</button>
+                	                </span>
+									&nbsp;
+									<span class="formwrap">
+									<a href='?action=cancel' style='text-decoration:none;color:#0088CC;'>Cancel</a>
+									</span>
+                    	        </form>
+      	                  		</div>
+                        ~/if`
+
+						<!-- *************************************** -->
+						<!-- STEP 2 -->
+						<!-- *************************************** -->
+	
+						~if $step eq '2'`
+	                        <h2>Set up database</h2> (Please enter your database details for the first time setup)
+							~if $errors|@count || $error`
+							<div class='error'>
+								<ul id='errors' style='margin:0px;padding:0px;'>
+									~section name=i loop=$errors`
+									<li>~$errors[i]`</li>
+									~/section`
+								</ul>
+								~if $error`
+								<br/>
+								~$error`
+								<br/><br/>
+								<ul id='errors' style='margin:0px;padding:0px;'>
+							      	<li>Is the database server running?</li>
+						    		<li>Does the database exist, and have you entered the correct database name?</li>
+          							<li>Have you entered the correct username and password?</li>
+          							<li>Have you entered the correct database hostname?</li>
+								</ul>
+								~/if`
+							</div>
+							~/if`
+							<form method=post>
+							<input type=hidden name=submit value='submit'>
+	 	                 	<div class="formrow"><label for="database">Database name</label>
+								<span class="formwrap"><input type="text" id='database' name='database' value='~$database`'></span>
+								<br/><span style='color:#888888;'>The name of the database where your MyTrend data will be stored in. It must exist on your server before MyTrend can be installed.</span>
+							</div>
+							<br/>
+ 	                       	<div class="formrow"><label for="host">Database Host</label>
+								<span class="formwrap"><input type="text" id='host' name='host' value='~$host`'></span>
+								<br/><span style='color:#888888;'>If your database is located on a different server, change this.</span>
+							</div>
+							<br/>
+ 	                       	<div class="formrow"><label for="port">Database Port</label>
+								<span class="formwrap"><input type="text" id='port' name='port' value='~$port`'></span>
+								<br/><span style='color:#888888;'>If your database server is listening to a non-standard port, enter its number.</span>
+							</div>
+							<br/>
+ 	                       	<div class="formrow"><label for="username">Database Username</label>
+								<span class="formwrap"><input type="text" id='username' name='username' value='~$username`'></span>
+							</div>
+ 	                       	<div class="formrow"><label for="password">Database Password</label>
+								<span class="formwrap"><input type="password" id='password' name='password' value='~$password`'></span>
+							</div>
+
+                           	<div class="formrow">
+                          		<span class="formwrap"><button class="srch-button" type="submit">Save & Continue</button></span>
+                          	</div>
+							</form>
+						~/if`				
+
+						<!-- *************************************** -->
+						<!-- STEP 3 -->
+						<!-- *************************************** -->
+						~if $step eq '3'`
+							<h2>Choose Password <span style='font-size:12px;font-weight:normal;'> (6 characters or more! Be tricky)</span></h2>
+							~if $error`
+								<div class="error">~$error`</div>
+							~/if`
+							<form method=post>
+							<input type=hidden name=submit value='submit'>
+							<div class="formrow"><label for="sa_password">Password : Super Admin</label>
+    							<span class="formwrap"><input type="password" id='sa_password' name='sa_password'></span>
+								<br/><span style='color:#888888;'>Super Admin will have all the rights including configuration rights.</span>
+							</div>
+							<div class="formrow"><label for="sa_c_password">Confirm Password</label>
+    							<span class="formwrap"><input type="password" id='sa_c_password' name='sa_c_password'></span>
+							</div>
+
+							<br/><br/>
+							<div class="formrow"><label for="a_password">Password : Admin</label>
+							    <span class="formwrap"><input type="password" id='a_password' name='a_password'></span>
+								<br/><span style='color:#888888;'>Admin will have only read access.</span>
+							</div>
+							<div class="formrow"><label for="a_c_password">Confirm Password</label>
+    							<span class="formwrap"><input type="password" id='a_c_password' name='a_c_password'></span>
+							</div>
+							<br/>
+							<div class="formrow">
+							    <span class="formwrap"><button class="srch-button" type="submit">Save & Continue</button></span>
+							</div>
+							</form>
+						~/if`			
+
+	
+						<!-- *************************************** -->
+						<!-- STEP 4 -->
+						<!-- *************************************** -->
+						~if $step eq '4'`
+
+							<span style='font-size:13px;font-weight:bold;color:green;'>Congratulations, you have successfully installed MyTrend !</span>
+							<br/><br/>
+							<div class="warning">All necessary changes to config have been made. We suggest that you may now remove "Write Permissions" to config files to avoid any security risks.</div>
+							<br/>
+							<form action=index.php>
+							<div class="formrow">
+							    <span class="formwrap"><button class="srch-button" type="submit">Click to proceed</button></span>
+							</div>
+							</form>	
+						~/if`
+
+						~if $step eq '0'`
+							<span style='font-size:13px;font-weight:bold;color:green;'>Thank You for trying MyTrend !</span>
+						~/if`
+						</div>
+					</div>
+
+					<div style='clear:both;'></div>
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+		
+		~include file=_footer.html`
+	</body>
+</html>

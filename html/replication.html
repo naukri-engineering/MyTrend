@@ -1,0 +1,49 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+	~include file=_title.html`	
+	<script>
+	var graph = new Graph();
+
+	~section name=i loop=$hostArr`
+		~if $hostArr[i].slaveStatus eq 'Yes'`
+			var s~$hostArr[i].server_id` = graph.newNode({label: '~$hostArr[i].server_id` : ~$hostArr[i].name`'});
+		~else`
+			var s~$hostArr[i].server_id` = graph.newNode({label: '~$hostArr[i].server_id` : ~$hostArr[i].name`',color:'red'});
+		~/if`
+	~/section`
+	~section name=i loop=$slaveArr`
+	graph.newEdge(s~$slaveArr[i].master_id`, s~$slaveArr[i].slave_id`, {color: '~$slaveArr[i].color`'});
+	~/section`
+	jQuery(function(){
+    		var springy = jQuery('#springydemo').springy({
+	        graph: graph,
+        	//nodeSelected: function(node){
+	        //    console.log('Node selected: ' + JSON.stringify(node.data));
+        	//}
+    		});
+	});
+
+</script>
+
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						<h3>Replication</h3>
+						<p>Check your complete MySQL Cluster</p>
+                        		<div>
+				</div>
+			</div>
+
+			<div style='clear:both;'></div>
+
+			<canvas id="springydemo" width="900" height="2000" />
+
+		</div><!--/main-->
+		
+		~include file=_footer.html`
+	</body>
+</html>
