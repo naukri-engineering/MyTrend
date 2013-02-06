@@ -62,6 +62,7 @@ Installation
       directory with this command:
 
       chmod -R 777 cache
+
       chmod -R 777 config	
 
       Be sure to set the permissions back on the "config" after the installation 
