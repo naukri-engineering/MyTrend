@@ -1,9 +1,72 @@
 <script id='chartscript'>
-~if $f eq '4' || $f eq '5' || $f eq '6'`
+~if $select eq 'multiple'`
 $(function () {
     var chart;
     $(document).ready(function() {
-    	
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'spline'
+            },
+            title: {
+                text: null
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: null
+                },
+                min: 0,
+                minorGridLineWidth: 0,
+                gridLineWidth: 0,
+                alternateGridColor: null,
+            },
+            plotOptions: {
+                spline: {
+                    lineWidth: 4,
+                    states: {
+                        hover: {
+                            lineWidth: 5
+                        }
+                    },
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                symbol: 'circle',
+                                radius: 5,
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    pointInterval: 24 * 3600 * 1000,
+		    pointStart: Date.UTC(~$yy`, ~$mm`-1, ~$dd`),
+                }
+            },
+            series: [
+		~section name=i loop=$data`
+		{ name: '~$data[i].label`',data: [~$data[i].series`] }, 
+		~/section`
+	    ]
+            ,
+            navigation: {
+                menuItemStyle: {
+                    fontSize: '10px'
+                }
+            }
+        });
+    });
+});
+~elseif $f eq '4' || $f eq '5' || $f eq '6'`
+$(function () {
+    var chart;
+    $(document).ready(function() {
     	// Radialize the colors
 		Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function(color) {
 		    return {
@@ -74,7 +137,6 @@ $(function () {
             },
             xAxis: {
                 type: 'datetime',
-                //maxZoom: 10 * 24 * 3600000, // fourteen days
                 title: {
                     text: null
                 }

@@ -46,5 +46,6 @@ if($_POST['submit']) {
 		$smarty->assign('error',$error);
 		$smarty->assign('success',$success);
 }
+$smarty->assign('PageSelected',8);
 $smarty->display('password.html');
 ?>

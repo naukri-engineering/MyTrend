@@ -46,5 +46,6 @@ $hostArr = array_values($hostArr);
 $smarty->assign('hostArr',$hostArr);
 $smarty->assign('slaveArr',$slaveArr);
 $smarty->assign('PAGE','replication');
+$smarty->assign('PageSelected',5);
 $smarty->display('replication.html');
 ?>

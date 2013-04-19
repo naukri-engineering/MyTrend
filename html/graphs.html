@@ -25,6 +25,8 @@
 						Generate graph trend for Database.
 						~elseif $f eq 6`		
 						Generate graph trend for Table data.
+						~elseif $f eq 8`
+						Something here ....
 						~/if`
 						</p>			
 
@@ -35,6 +37,7 @@
                                 <li>~if $f eq 2`<a href='#' style='color:black;'>Database</a>~else`<a href='?f=2'>Database</a>~/if`<li>
                                 <li>~if $f eq 3`<a href='#' style='color:black;'>Table</a>~else`<a href='?f=3'>Table</a>~/if`<li>
 				<li>~if $f eq 7`<a href='#' style='color:black;'>Variables</a>~else`<a href='?f=7'>Variables</a>~/if`<li>
+				<li>~if $f eq 8`<a href='#' style='color:black;'>Customized Graphs</a>~else`<a href='?f=8'>Customized Graphs</a>~/if`<li>
                             </ul>
 							<br/>
                             <p style='color:#677072;margin:0;padding:0;'>Generate Distribution Chart for :</p>
@@ -51,33 +54,48 @@
                             </ul>-->
                         </div>
 
-						<div style='width:480px;float:left;'>
-						<div class="formrow" ~if $f eq '4'`style='display:none;'~/if`>
-							<label for="">MySQL Instance</label>
-							<span class="formwrap" id='instanceRow'>
-							<select onblur="getDatabase(this.value,'database');" id='instance' name='instance'>
-								<option value="-1">Select MySQL Instance:</option>
-								~section name=i loop=$instanceArr`
-								<option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id`selected~/if`>~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`</option>
-								~/section`
-							</select>
-							</span>
-						</div>
+			<div style='width:480px;float:left;'>
+			    <div class="formrow" ~if $f eq '4' || $f eq '8'`style='display:none;'~/if`>
+				<label for="">MySQL Instance</label>
+				<span class="formwrap" id='instanceRow'>
+
+				<select onblur="getDatabase(this.value,'database');" id='instance' name='instance'>
+				<option value="-1">Select MySQL Instance:</option>
+				~section name=i loop=$instanceArr`
+				<option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id`selected~/if`>~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`</option>
+				~/section`
+				</select>
+				</span>
+			    </div>
+
+
+                        <div class="formrow" ~if $f neq '8'`style='display:none;'~/if`>
+                            <label for="">Customized Labels</label>
+                            <span class="formwrap" id='clabelsRow'>
+                            <select id='clabels' name='clabels[]' multiple size=5>
+                                ~section name=i loop=$clabels`
+                                <option value='~$clabels[i].id`' ~if $clabels[i].id eq $clabel`selected~/if`>~$clabels[i].label`</option>
+                                ~/section`
+                            </select>
+                            </span>
+			    <label for=""><span style="color: grey;">(Select multiple, press ctrl key)</span></label>
+                        </div>
+
 
                         <div class="formrow" ~if $f neq '7'`style='display:none;'~/if`>
                             <label for="">MySQL Variable</label>
                             <span class="formwrap" id='vRow'>
-                            <select id='v' name='v'>
-                                <option value="-1">Select MySQL Variable:</option>
+                            <select id='v' name='v[]' multiple size=5>
                                 ~section name=i loop=$variables`
                                 <option name='~$variables[i]`' ~if $variables[i] eq $v`selected~/if`>~$variables[i]`</option>
                                 ~/section`
                             </select>
                             </span>
+			    <label for=""><span style="color: grey;">(Select multiple, press ctrl key)</span></label>
                         </div>
 
 
-						<div class="formrow" ~if $f eq '1' || $f eq '4' || $f eq '5' || $f eq '7'`style='display:none;'~/if`>
+						<div class="formrow" ~if $f eq '1' || $f eq '4' || $f eq '5' || $f eq '7' || $f eq '8'`style='display:none;'~/if`>
 							<label for="">Database</label>
 							<span class="formwrap" id='databaseRow'>
 							<select id='database' name='database' onblur="getTable(gbi('instance').value,this.value,'table');">
@@ -91,7 +109,7 @@
 						</div>
 
 
-						<div class="formrow" ~if $f eq '1' || $f eq '2' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7'`style='display:none;'~/if`>
+						<div class="formrow" ~if $f eq '1' || $f eq '2' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7' || $f eq '8'`style='display:none;'~/if`>
 							<label for="">Table</label>
 							<span class="formwrap" id='tableRow'>
 							<select id='table' name='table'>
@@ -115,7 +133,7 @@ function showHide() {
 }
 </script>
 
-						<div class="formrow" ~if $f eq '1' || $f eq '2' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7'`style='display:none;'~/if`>
+						<div class="formrow" ~if $f eq '1' || $f eq '2' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7' || $f eq '8'`style='display:none;'~/if`>
 							<label for="">Type</label>
 							<span class="formwrap">
 							<select name='type' id='type' onblur="showHide()";>
@@ -126,7 +144,7 @@ function showHide() {
 							</span>
 						</div>
 
-                        <div class="formrow" ~if $f eq '3' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7'`style='display:none;'~/if` id='sizetypediv'>
+                        <div class="formrow" ~if $f eq '3' || $f eq '4' || $f eq '5' || $f eq '6' || $f eq '7' || $f eq '8'`style='display:none;'~/if` id='sizetypediv'>
                             <label for="">Size in</label>
                             <span class="formwrap">
                             <select id='sizetype' name='sizetype'>
@@ -168,6 +186,8 @@ function showHide() {
 							<button class="srch-button" type="submit" onClick="getGraph_TableDistribution('graph',gbi('instance').value,gbi('database').value,gbi('date1').value,'~$f`');">Generate Graph</button>
 							~elseif $f eq '7'`
 							<button class="srch-button" type="submit" onClick="getGraph_Status('graph',gbi('instance').value,gbi('v').value,gbi('date1').value,gbi('date2').value,'~$f`');">Generate Graph</button>
+							~elseif $f eq '8'`
+							<button class="srch-button" type="submit" onClick="getGraph_clabels('graph',gbi('clabels').value,gbi('date1').value,gbi('date2').value,'~$f`');">Generate Graph</button>	
 							~/if`
 							</span>
 							<span id='graphLoad' style='display:none;'><img src='images/loading.gif'></span>

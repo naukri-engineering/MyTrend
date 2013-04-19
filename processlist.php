@@ -29,5 +29,6 @@ else {
 }
 $smarty->assign('instanceArr',$instanceArr);
 $smarty->assign('interval',$interval);
+$smarty->assign('PageSelected',6);
 $smarty->display('processlist.html');
 ?>

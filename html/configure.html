@@ -24,6 +24,9 @@
 						<h3>MySQL Status Variables</h3>
 						<p>Select MySQL status variables required for data logging. Learn more on <a href='http://dev.mysql.com/doc/refman/5.0/en/server-status-variables.html' target=_blank style='text-decoration:none;color:#0088CC;'>"MySQL status variables"</a>
 						</p>
+						~elseif $f eq '5'`
+						<h3>Customized Graphs.</h3> 
+						<p>You can configure anything using this page and log data using api's provided.</p>
 						~/if`
 
 
@@ -35,6 +38,11 @@
                                 <li>~if $f eq '4'`<a href='?f=4' style='color:black;'>Status Variable(s)</a>~else`<a href='?f=4' >Status Variable(s)</a>~/if`<li>
                                 <li>~if $f eq '3'`<a href='?f=3' style='color:black;'>Cron</a>~else`<a href='?f=3' >Cron</a>~/if`<li>
                             </ul>
+			    <br/>
+			    <p style='color:#677072;margin:0;padding:0;'>Customized Graphs :</p>
+			    <ul>
+                                <li>~if $f eq '5'`<a href='?f=5' style='color:black;'>Settings</a>~else`<a href='?f=5' >Settings</a>~/if`<li>
+			    </ul>
                         </div>
 
 
@@ -203,6 +211,55 @@
                             <input type=hidden name='submit' value='add'>
                         </form>
 						~/if`
+
+
+<!-- ==================================== My Graphs =============================== -->
+~if $f eq '5'`
+
+                        <div style='width:600px;overflow:auto;' id='data'>
+			    ~if $data`
+			    <table border=0 width=100% style='font-size:12px;'>
+				<tr style='height:22px;'>
+				    <td class='sc_row'>Id</td>
+                                    <td class='sc_row'>Label</td>
+                                </tr>
+				~section name=i loop=$data`
+				<tr style='height:22px;'>
+                                    <td>&nbsp;&nbsp;~$data[i].id`</td>
+                                    <td>&nbsp;&nbsp;~$data[i].label`</td>
+                                </tr>
+                                ~/section`
+                            </table>
+			    ~/if`
+			    <br/>
+			    <form method=post>
+				<span class="formwrap">Enter Label : <input type=text name='name' value='~$name`' style='width:430px;' ></span>
+                                <span><button type="submit" style='height:28px;background: none repeat scroll 0 0 #0088CC;color: #FFFFFF;font-size: 11px;padding: 0 10px;text-indent: 0;width: auto;'>Add Label</button></span>
+                            <input type=hidden name=f value='~$f`'>
+			    <input type=hidden name=submit value='add'>
+			    </form>
+
+			    <br/>
+			    <p style='color:#677072;margin:0;padding:0;'>API Signature</p>
+			    <div id='cron'>
+			    <ul>
+				<li>URL : http://localhost/MyTrend/api/_id_/_count_/_apikey_/_date_<li>
+				<li>id = (required)</li>
+				<li>count = Count (required)</li>
+				<li>apikey = ~$apikey` (required)</li>
+				<li>date = Date (optional)</li>
+			    </ul>
+			    </div>
+
+			    <br/>
+			    <p style='color:#677072;margin:0;padding:0;'>Example API Call:</p>
+			    <div id='cron'>
+			    <ul>
+				<li>URL : http://localhost/MyTrend/api/1/2012-10-01/123/36341cbb9c5a51ba81e855523de49dfd<li>
+			    </ul>
+			    </div>
+~/if`
+
 
 						</div>
 					</div>

@@ -91,6 +91,26 @@ CREATE TABLE `mytrend_users` (
   `password` varchar(50) DEFAULT NULL
 ) ENGINE=MyISAM
 TABLE;
+
+$tables[] = <<<TABLE
+CREATE TABLE `mytrend_server_configs` (
+  `mysql_id` int(11) default NULL,
+  `date` date default NULL,
+  `config_data` text,
+  KEY `mysql_id` (`mysql_id`,`date`)
+) ENGINE=MyISAM
+TABLE;
+
+$tables[] = <<<TABLE
+CREATE TABLE `mytrend_change_log` (
+  `mysql_id` int(11) default NULL,
+  `date` date default NULL,
+  `log` text,
+  KEY `mysql_id` (`mysql_id`),
+  KEY `date` (`date`)
+) ENGINE=MyISAM
+TABLE;
+
 return $tables;
 }
 

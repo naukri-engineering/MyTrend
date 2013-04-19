@@ -83,7 +83,7 @@ ul {
     display: inline;
 }
 #productheader ul li a {
-    margin-left: 24px;
+    margin-left: 20px;
 }
 #productheader ul li a:hover {
     color: #0088CC;
@@ -167,6 +167,12 @@ span.formwrap {
     padding: 3px 5px;
     width: 294px;
 }
+.formwrap textarea {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D9D9D9;
+    padding: 3px 5px;
+    width: 294px;
+}
 .formrow select {
    background: none repeat scroll 0 0 #FFFFFF;
    width: 294px;
@@ -205,3 +211,6 @@ color: #4F8A10;
 background-color: #DFF2BF;
 background-image:url('../images/success.png');
 }
+.sc_row {color:white;background: none repeat scroll 0 0 #45759E;height: 17px;padding: 5px 5px 5px 10px;}
+.sc_name {padding: 4px 0 4px 10px;color:#45759E;}
+.sc_value {padding: 4px 0 4px 10px;max-width:250px;white-space: normal;word-wrap: break-word;}

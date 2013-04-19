@@ -2,16 +2,19 @@
 	<img src='images/chart.png' style='float:left' width=50 height=50><h2 style='width:220px;line-height:40px;'><span style='color:#015A84;'>My</span><span style='color:#E97B00;'>Trend</span></h2>
 	~if $DoNotDisplayLinks neq '1'`
 		<ul>
-			<li id="pn-features"><a href="stats.php">Stats</a></li>
-			<li id="pn-design"><a href="graphs.php">Graphs</a></li>  
-            <li id="pn-design"><a href="replication.php">Replication</a></li>  
-			<li id="pn-design"><a href="processlist.php">Processlist</a></li>  
+			<li id="pn-features"><a href="stats.php">~if $PageSelected eq '1'`<b>Stats</b>~else`Stats~/if`</a></li>
+			<li id="pn-design"><a href="graphs.php">~if $PageSelected eq '2'`<b>Graphs</b>~else`Graphs~/if`</a></li>  
+			<li id="pn-design"><a href="server-config.php">~if $PageSelected eq '3'`<b>Server Config</b>~else`Server Config~/if`</a></li>  
+			<li id="pn-design"><a href="monitors.php">~if $PageSelected eq '4'`<b>Monitors</b>~else`Monitors~/if`</a></li>  
+			<li id="pn-design"><a href="replication.php">~if $PageSelected eq '5'`<b>Replication</b>~else`Replication~/if`</a></li>  
+			<li id="pn-design"><a href="processlist.php">~if $PageSelected eq '6'`<b>Processlist</b>~else`Processlist~/if`</a></li>  
+			<li id="pn-design"><a href="changelog.php">~if $PageSelected eq '9'`<b>Change Log</b>~else`Change Log~/if`</a></li>  
 			~if $role neq 'admin' `
-				<li id="pn-features"><a href="configure.php">Configure</a></li>
+				<li id="pn-features"><a href="configure.php">~if $PageSelected eq '7'`<b>Configure</b>~else`Configure~/if`</a></li>
 			~/if`
 			~if $AUTH eq '1'`
 				~if $role neq 'admin' `
-					<li id="pn-features"><a href="password.php">Change Password</a></li>
+					<li id="pn-features"><a href="password.php">~if $PageSelected eq '8'`<b>Password</b>~else`Password~/if`</a></li>
 				~/if`
 				<li id="pn-features"><a href="logout.php">Logout</a></li>
 			~/if`
