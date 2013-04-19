@@ -1,0 +1,120 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+	~include file=_title.html`	
+	~if $f eq '2'`
+		~include file=_cal.html`
+	~/if`
+	~if $data`
+
+	<script>
+	window.onload = function(){
+		window.location.hash = 'data';
+	}
+	</script>
+	~/if`
+
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						<h3>Server Config</h3>
+			                        <p>
+                       				~if $f eq '1'`Server Config allows you to compare MySQL configurations of multiple servers side-by-side.~/if`
+						~if $f eq '2'`Server Config allows you to compare MySQL configurations of a single server date-wise.~/if`
+						</p>			
+
+                                                <div id='menupanel'>
+                                              	<p style='color:#677072;margin:0;padding:0;'>Compare Config :</p>
+				              	<ul>
+                                		<li>~if $f eq 1`<a href='?f=1' style='color:black;'>Server-wise</a>~else`<a href='?f=1'>Server-wise</a>~/if`</li>
+		                                <li>~if $f eq 2`<a href='?f=2' style='color:black;'>Date-wise</a>~else`<a href='?f=2' >Date-wise</a>~/if`</li>
+                			       	</ul>
+                                                </div>
+
+
+			                        <div style='width:480px;float:left;'>
+                        				<form name='server-config' onsubmit="return validation('server-config',~$f`);" method=post>
+								<div class="formrow">
+									<label for="">MySQL Instance</label>
+									<span class="formwrap" id='instanceRow'>
+										<select id='instance' ~if $f eq '1'`name='instance[]' multiple size=7~elseif $f eq '2'`name='instance'~/if`>
+										~if $f eq '2'`
+											<option value="-1">Select MySQL Instance:</option>
+										~/if`
+										~section name=i loop=$instanceArr`
+						                                <option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id` selected ~/if`>
+						                                ~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`
+						                                </option>
+										~/section`
+										</select>
+									</span>
+									~if $f eq '1'`
+									<label for=""><span style="color: grey;">Select multiple, press ctrl key</span></label>
+									~/if`
+								</div>
+
+								~if $f eq '2'`
+					                        <div class="formrow">
+					                            <label for="">Compare Config for</label>
+					                            <span class="formwrap" id='date1Row'>From Date <input type="text" id='date1' style='width:85px;' name='date1' value='~$date1`'></span>
+					                            <span class="formwrap" id='date2Row'>To Date <input type="text" id='date2' style='width:90px;' name='date2' value='~$date2`'></span>
+					                        </div>
+								~/if`
+
+								<div class="formrow">
+									<span class="formwrap"><button class="srch-button" type="submit">
+									Compare Config
+									</button></span>
+					                        </div>
+								<input type=hidden name=f value='~$f`'>
+				                        </form>
+						</div>
+					</div>
+
+					<div style='clear:both;'></div>
+
+			
+					~if $data`
+					<div style='width:880px;overflow:auto;' id='data'>
+						<table border=0 width=100% style='font-size:12px;'>
+						<tr style='height:22px;'>
+							<td>&nbsp;</td>
+							~if $f eq '1'`
+							~section name=i loop=$servers`
+							<td class ='sc_row'>
+								~$servers[i].host` (~$servers[i].port`) - ~if $servers[i].name` ~$servers[i].name` ~/if`
+							</td>
+							~/section`
+							~elseif $f eq '2'`
+								~if $date1data neq '0'`
+								<td class='sc_row'>~$date1`</td>
+								~/if`
+								~if $date2data neq '0'`
+								~if $date1 neq $date2`
+								<td class='sc_row'>~$date2`</td>
+								~/if`
+								~/if`
+							~/if`
+						</tr>
+
+						~section name=i loop=$data`
+						<tr style='height:22px;'>
+							<td class='sc_name'>~$data[i].name`</td>
+							~foreach from=$data[i].value key=k item=v`
+							<td class='sc_value'>~$v`</td>
+							~/foreach`
+						</tr>
+						~/section`
+						</table>
+					</div>
+					~/if`
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+		
+		~include file=_footer.html`
+	</body>
+</html>

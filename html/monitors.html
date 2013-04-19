@@ -1,0 +1,72 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+	<head>
+	~include file=_title.html`	
+	</head>
+	<body id='mainbody'>
+		<div id="main">
+			<div class="content" id="content">
+				~include file=_header.html`
+				<div id="policy">
+					<div class="column">
+						<h3>MyTrend Monitors <span style="font-size:12px;font-weight:normal;"> - displays a detailed display of server parameters and metrics.</span></h3>
+						<div id='menupanel' style='width:260px;'>
+
+							<form name='frmMonitors'>
+							<div class="formrow">
+								<span class="formwrap" id='instanceRow'>
+									<select id='instance' name='instance' onchange='document.frmMonitors.submit();'>
+										<option value="-1">Select MySQL Instance:</option>
+										~section name=i loop=$instanceArr`
+										<option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id`selected~/if`>~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`</option>
+										~/section`
+									</select>
+								</span>
+							</div>
+							<input type=hidden name='f' value='~$f`'>
+							</form>
+                            <ul>
+                           	<li>~if $f eq 1`<a href='?f=1&instance=~$mysql_id`' style='color:black;'>General Info</a>~else`<a href='?f=1&instance=~$mysql_id`'>General Info</a>~/if`</li>
+                          	<li>~if $f eq 2`<a href='?f=2&instance=~$mysql_id`' style='color:black;'>Security</a>~else`<a href='?f=2&instance=~$mysql_id`' >Security</a>~/if`</li>
+                         	<li>~if $f eq 3`<a href='?f=3&instance=~$mysql_id`' style='color:black;'>Commands & Schema Change</a>~else`<a href='?f=3&instance=~$mysql_id`' >Commands & Schema Change</a>~/if`</li>
+                        	<li>~if $f eq 4`<a href='?f=4&instance=~$mysql_id`' style='color:black;'>Current Connections</a>~else`<a href='?f=4&instance=~$mysql_id`'>Current Connections</a>~/if`<li>
+                         	<li>~if $f eq 5`<a href='?f=5&instance=~$mysql_id`' style='color:black;'>Connection History</a>~else`<a href='?f=5&instance=~$mysql_id`'>Connection History</a>~/if`<li>
+                           	<li>~if $f eq 6`<a href='?f=6&instance=~$mysql_id`' style='color:black;'>Threads</a>~else`<a href='?f=6&instance=~$mysql_id`'>Threads</a>~/if`<li>
+                          	<li>~if $f eq 7`<a href='?f=7&instance=~$mysql_id`' style='color:black;'>Table Cache & Locks</a>~else`<a href='?f=7&instance=~$mysql_id`'>Table Cache & Locks</a>~/if`<li>
+                           	<li>~if $f eq 8`<a href='?f=8&instance=~$mysql_id`' style='color:black;'>Binary Log</a>~else`<a href='?f=8&instance=~$mysql_id`'>Binary Log</a>~/if`<li>
+                          	<li>~if $f eq 9`<a href='?f=9&instance=~$mysql_id`' style='color:black;'>Replication</a>~else`<a href='?f=9&instance=~$mysql_id`'>Replication</a>~/if`<li>
+                          	<li>~if $f eq 10`<a href='?f=10&instance=~$mysql_id`' style='color:black;'>Index Usage</a>~else`<a href='?f=10&instance=~$mysql_id`'>Index Usage</a>~/if`<li>
+                         	<li>~if $f eq 11`<a href='?f=11&instance=~$mysql_id`' style='color:black;'>Statements</a>~else`<a href='?f=11&instance=~$mysql_id`'>Statements</a>~/if`<li>
+                          	<li>~if $f eq 12`<a href='?f=12&instance=~$mysql_id`' style='color:black;'>Misc</a>~else`<a href='?f=12&instance=~$mysql_id`'>Misc</a>~/if`<li>
+                          	<li>~if $f eq 13`<a href='?f=13&instance=~$mysql_id`' style='color:black;'>Temporary Tables</a>~else`<a href='?f=13&instance=~$mysql_id`'>Temporary Tables</a>~/if`<li>
+                            </ul>
+						</div>
+						<div style='width:550px;float:left;' id='data'>
+						~if $data`	
+                        <table border=0 width=100% style='font-size:12px;'>
+                        <tr style='height:22px;'>
+                            <td class ='sc_row'>&nbsp;</td>
+                            <td class ='sc_row'>Current metrics</td>
+                        </tr>
+
+                        ~section name=i loop=$data`
+                        <tr style='height:22px;'>
+                            <td class='sc_name'>~$data[i].label`</td>
+                            <td class='sc_value'>~$data[i].value`</td>
+                        </tr>
+                        ~/section`
+                        </table>
+
+						~else`
+						<br/><br/><span style='color:red;'>Choose the server for which you want to see the metrics.</span>
+						~/if`
+						</div>
+					</div>
+
+					<div style='clear:both;' id='data1Clear'></div>
+				</div>
+			</div><!--/content-->
+		</div><!--/main-->
+		
+		~include file=_footer.html`
+	</body>
+</html>
