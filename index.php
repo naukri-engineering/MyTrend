@@ -1,7 +1,7 @@
 <?php
 /*
-* Author : Amardeep Vishwakarma
-*/
+ * Author : Amardeep Vishwakarma
+ */
 require_once "include.php";
 require_once "config/settings.php";
 

@@ -1,8 +1,8 @@
 <?php
 /*
-* Logout from MyTrend.
-* Author : Amardeep Vishwakarma
-*/
+ * Logout from MyTrend.
+ * Author : Amardeep Vishwakarma
+ */
 require_once "include.php";
 $authObj->logout();
 $smarty->assign("AUTH",0);

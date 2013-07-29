@@ -1,11 +1,11 @@
 <?php
 class Monitors {
-    private $objMySQL;
+    private $objDBConnection;
     /*
      * Constructor
      */
-    public function __construct($objMySQL,$dbSettings) {
-	$this->objMySQL 	= $objMySQL;
+    public function __construct($objDBConnection,$dbSettings) {
+	$this->objDBConnection 	= $objDBConnection;
 	$this->dbSettings 	= $dbSettings;
     }
     public function getMonitorsData($f,$allVariables,$allStatus) {
@@ -218,7 +218,7 @@ class Monitors {
     //Get Slave Status.
     private function getSlaveStatus() {
 	$sql = "show slave status";
-	$res = $this->objMySQL->query($sql,$this->dbSettings);
+	$res = $this->objDBConnection->query($sql,$this->dbSettings,0);		    
 	$row = mysql_fetch_assoc($res);
 	return $row;
     }
@@ -260,15 +260,14 @@ class Monitors {
 	}
     }
     private function accessUser($f) {
-	$this->objMySQL->close();
+	$this->objDBConnection->close();
 	if($f==1)   $sql = "select count(*) cnt from mysql.user where Host='' or Host='%'";
 	if($f==2)   $sql = "select count(*) cnt from mysql.user where User=''";
 	if($f==3)   $sql = "select count(*) cnt from mysql.user where User='root'";
 	if($f==4)   $sql = "select count(*) cnt from mysql.user where Host='' or Host='%'";
 	if($f==5)   $sql = "select count(*) cnt from mysql.user where User='root' and Password=''";
 	if($f==6)   $sql = "select count(*) cnt from mysql.user where Password=''";
-	$res = $this->objMySQL->query($sql,$this->dbSettings);
-	$row = mysql_fetch_assoc($res);
+	$row = $this->objDBConnection->row($sql,$this->dbSettings);
 	return $row['cnt'];
     }
 }

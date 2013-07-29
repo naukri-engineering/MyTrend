@@ -5,27 +5,27 @@
  */
 require_once "include.php";
 if(!$AUTH) {
-		$smarty->display('index.html');
-		die;
+	$smarty->display('index.html');
+	die;
 }
-$objMySQL 	= new MySQL();
-$objMyTrend	= new MyTrend($objMySQL);
+$objDBConnection 	= new DBConnection();
+$objMyTrend	= new MyTrend($objDBConnection);
 //Fetch an array of MySQL Instance configured for MyTrend
 $instanceArr = $objMyTrend->getMyInstance();
 if($_GET['instance']) {
-		$mysql_id   = $_GET['instance'];
-		$dbSettings = $objMyTrend->getDatabaseSettings($mysql_id);
-		$objProcessList = new Processlist($objMySQL,$dbSettings);
-		//Get the data for current running processlist
-		$arrProcesslist = $objProcessList->getProcessList();
-		$smarty->assign('arrProcesslist',$arrProcesslist);
-		$smarty->assign('mysql_id',$mysql_id);
+	$mysql_id   = $_GET['instance'];
+	$dbSettings = $objMyTrend->getDatabaseSettings($mysql_id);
+	$objProcessList = new Processlist($objDBConnection,$dbSettings);
+	//Get the data for current running processlist
+	$arrProcesslist = $objProcessList->getProcessList();
+	$smarty->assign('arrProcesslist',$arrProcesslist);
+	$smarty->assign('mysql_id',$mysql_id);
 }
 if($_GET['interval']) {
-		$interval = $_GET['interval'];
+	$interval = $_GET['interval'];
 }
 else {
-		$interval = 5;	//Default Refresh Time
+	$interval = 5;	//Default Refresh Time
 }
 $smarty->assign('instanceArr',$instanceArr);
 $smarty->assign('interval',$interval);

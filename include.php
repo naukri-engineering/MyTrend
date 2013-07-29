@@ -1,7 +1,7 @@
 <?php
 /*
-* Author : Amardeep Vishwakarma
-*/
+ * Author : Amardeep Vishwakarma
+ */
 //Include the Smarty File (Templating Engine)
 require_once "html/smarty/Smarty.class.php";
 $smarty = new Smarty;
@@ -13,7 +13,7 @@ function __autoload($class_name) {
 
 //Checks for the authentication.
 session_start();
-$authObj	= new Authenticate(new MySQL());
+$authObj	= new Authenticate(new DBConnection());
 if($authObj->authenticate()) {	
 	//Success
 	$smarty->assign("AUTH",1);
