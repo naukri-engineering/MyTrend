@@ -9,6 +9,15 @@ An ingenious tool to monitor data growth trend and server space utilization simp
 * Fully customizable using web-based customization interface
 * True Open Source - No Enterprise version, the best of MyTrend is offered for free.
 
+Features
+--------
+* Stats - MySQL data comparison for customized date range
+* Server Config - This allows you to compare MySQL configurations of multiple servers side-by-side. 
+* Monitors - displays a detailed display of server parameters and metrics.
+* Replication - Check your complete MySQL Cluster
+* Processlist -  Check the current processlist. 
+* Change Log - Helps in maintaining a change log.
+* Customized Graphs - You can configure anything using this page and log data using api's provided.
 
 Installation
 ------------
