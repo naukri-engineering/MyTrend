@@ -40,7 +40,7 @@
 								<div class="formrow">
 									<label for="">MySQL Instance</label>
 									<span class="formwrap" id='instanceRow'>
-										<select id='instance' ~if $f eq '1'`name='instance[]' multiple size=7~elseif $f eq '2'`name='instance'~/if`>
+										<select id='instance' ~if $f eq '1'`name='instance[]' multiple size=7~elseif $f eq '2'`name='instance'~/if` data-placeholder="Choose MySQL Instance ..." class="chzn-select">
 										~if $f eq '2'`
 											<option value="-1">Select MySQL Instance:</option>
 										~/if`
@@ -52,7 +52,7 @@
 										</select>
 									</span>
 									~if $f eq '1'`
-									<label for=""><span style="color: grey;">Select multiple, press ctrl key</span></label>
+									<!--<label for=""><span style="color: grey;">Select multiple, press ctrl key</span></label>-->
 									~/if`
 								</div>
 
@@ -116,5 +116,6 @@
 		</div><!--/main-->
 		
 		~include file=_footer.html`
+		~include file=_dropdown.html`
 	</body>
 </html>
