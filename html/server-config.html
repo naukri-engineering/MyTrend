@@ -101,9 +101,9 @@
 						</tr>
 
 						~section name=i loop=$data`
-						<tr style='height:22px;'>
+						<tr style='height:22px;' ~if $data[i].diff eq '1'`bgcolor='#F5A9A9'~/if`>
 							<td class='sc_name'>~$data[i].name`</td>
-							~foreach from=$data[i].value key=k item=v`
+							~foreach from=$data[i].value key=k item=v`							
 							<td class='sc_value'>~$v`</td>
 							~/foreach`
 						</tr>
