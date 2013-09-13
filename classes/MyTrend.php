@@ -23,22 +23,34 @@ class MyTrend {
 			$result = $this->objDBConnection->queryPDO($sql,array(),$params);
 		}
 		else {
-			$sql = "SELECT * FROM `mytrend_mysql_instances`";
-			$result = $this->objDBConnection->queryPDO($sql,array());
+			if(SERVER_GROUP) {
+			    $sql = "SELECT * FROM `mytrend_mysql_instances` where group_name=:group_name order by group_name,name";
+			    $params = array('group_name'=>SERVER_GROUP);
+			    $result = $this->objDBConnection->queryPDO($sql,array(),$params);  
+			}
+			else {
+			    $sql = "SELECT * FROM `mytrend_mysql_instances` order by group_name,name";
+			    $result = $this->objDBConnection->queryPDO($sql,array());
+			}
 		}
 		return $result;
+	}
+	public function getServerGroup() {
+	    $sql = "SELECT distinct group_name from `mytrend_mysql_instances`";
+	    $result = $this->objDBConnection->queryPDO($sql,array(),array());
+	    return $result;
 	}
 	/*
 	 * Checks and Add new MySQL Instance
 	 */
-	public function addMyInstance($name,$host,$port,$username,$password) {
+	public function addMyInstance($group_name,$name,$host,$port,$username,$password) {
 		$sql = "SELECT COUNT(*) COUNT FROM `mytrend_mysql_instances` WHERE `host`=:host AND `port`=:port";
 		$params = array('host'=>$host,'port'=>$port);
 		$result = $this->objDBConnection->row($sql,array(),$params);
 		if($result['COUNT'])
 			return false;
-		$sql = "insert INTO `mytrend_mysql_instances`(`name`,`host`,`port`,`username`,`password`) VALUES(:name,:host,:port,:username,:password)";
-		$params = array('name'=>$name,'host'=>$host,'port'=>$port,'username'=>$username,'password'=>$password);
+		$sql = "insert INTO `mytrend_mysql_instances`(`group_name`,`name`,`host`,`port`,`username`,`password`) VALUES(:group_name,:name,:host,:port,:username,:password)";
+		$params = array('group_name'=>$group_name,'name'=>$name,'host'=>$host,'port'=>$port,'username'=>$username,'password'=>$password);
 		$this->objDBConnection->queryPDO($sql,array(),$params);
 		return true;
 	}
@@ -46,9 +58,9 @@ class MyTrend {
 	/*
 	 * Update the Insformarion in mytrend_mysql_instances table
 	 */
-	public function updateMyInstance($mysql_id,$name,$host,$port,$username,$password) {
-		$sql = "UPDATE `mytrend_mysql_instances` SET `name`=:name,`host`=:host,`port`=:port,`username`=:username,`password`=:password WHERE mysql_id=mysql_id";
-		$params = array('name'=>$name,'host'=>$host,'port'=>$port,'username'=>$username,'password'=>$password,'mysql_id'=>$mysql_id);
+	public function updateMyInstance($mysql_id,$group_name,$name,$host,$port,$username,$password) {
+		$sql = "UPDATE `mytrend_mysql_instances` SET `group_name`=:group_name,`name`=:name,`host`=:host,`port`=:port,`username`=:username,`password`=:password WHERE mysql_id=:mysql_id";
+		$params = array('group_name'=>$group_name,'name'=>$name,'host'=>$host,'port'=>$port,'username'=>$username,'password'=>$password,'mysql_id'=>$mysql_id);
 		$this->objDBConnection->queryPDO($sql,array(),$params);
 	}
 	/*
@@ -159,11 +171,26 @@ class MyTrend {
 	 * Get data for MyTrend Stats - Instance
 	 */
 	public function getStats_InstanceData($date) {
+		$myIds = array();
+		if(SERVER_GROUP) {
+		    $sql = "SELECT mysql_id FROM `mytrend_mysql_instances` where group_name=:group_name";
+		    $params = array('group_name'=>SERVER_GROUP);
+		    $result = $this->objDBConnection->queryPDO($sql,array(),$params);
+		    foreach($result as $res) {
+			$myIds[] = $res['mysql_id'];
+		    }  
+		}
 		$params = array('date'=>$date);
 		$res = $this->getData('mytrend_data_instance',"`date`=:date",$params);
 		$data = array();
 		foreach($res as $row) {
+		    if(SERVER_GROUP) {
+			if(in_array($row['mysql_id'],$myIds))	
+			    $data[$row['mysql_id']] = array('date'=>$date,'data_size'=>$row['data_length']+$row['index_length'],'mysql_id'=>$row['mysql_id']);
+		    } 
+		    else {
 			$data[$row['mysql_id']] = array('date'=>$date,'data_size'=>$row['data_length']+$row['index_length'],'mysql_id'=>$row['mysql_id']);
+		    }
 		}
 		return $data;
 	}

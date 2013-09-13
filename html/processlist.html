@@ -37,11 +37,19 @@ window.onload = function(){
 								~/section`
 							</select>
 							</span>
+&nbsp;&nbsp;&nbsp;|&nbsp;
+			    <span class="formwrap">
+			    <select name="listtype" id="type" style='width:180px;'>
+				<option value="1" ~if $listtype eq '1'`selected~/if`>Show Processlist</option>
+				<option value="2" ~if $listtype eq '2'`selected~/if`>Show Full Processlist</option>
+			    </select>
+			    </span>
+
 &nbsp;&nbsp;&nbsp;|&nbsp;<b>Refresh interval</b> <span class="formwrap"><input type=text name=interval value='~$interval`' style='width:50px;'></span> Second(s)
 &nbsp;&nbsp;&nbsp;|&nbsp;<a href='#' id='stop' style='color:#0088CC;'>Pause auto-refresh</a>
 						</div>
 						<div class="formrow">
-							<span class="formwrap"><button class="srch-button" type="submit">Show Processlist</button></span>
+							<span class="formwrap"><button class="srch-button" type="submit">Submit</button></span>
                         </div>
                         </form>
 						</div>
@@ -53,10 +61,14 @@ window.onload = function(){
                         <script id='data1script'>
                             $(document).ready(function() {
                                 $('#table1').dataTable( {
-								    "aaSorting": [[ 5, "desc" ]],
+				    "aaSorting": [[ 5, "desc" ]],
                                     "bScrollInfinite": true,
                                     "bScrollCollapse": true,
-								    "iDisplayLength": 1000
+				    "iDisplayLength": 1000,
+				    "sDom": 'T<"clear">lfrtip',
+				    "oTableTools": {
+				    "sSwfPath": "images/copy_csv_xls_pdf.swf"
+				    }
                                 });
                             } );
                         </script>

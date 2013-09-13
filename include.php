@@ -20,6 +20,23 @@ if($authObj->authenticate()) {
 	$smarty->assign("role",$authObj->getRole());
 	$AUTH = 1;
 	$ROLE = $authObj->getRole();
+
+	if($_POST['submit'] == 'serverGroup') {
+	    $_SESSION['serverGroup'] = $_POST['serverGroup'];
+	}
+	$mtObj	    = new MyTrend(new DBConnection());
+	$serverGroups= $mtObj->getServerGroup();
+	$smarty->assign('serverGroups',$serverGroups);
+	if(!$_SESSION['serverGroup']) {
+	    $smarty->assign('serverGroup','');
+	    $serverGroup = '';
+	    define('SERVER_GROUP','');
+	}
+	else {
+	    $smarty->assign('serverGroup',$_SESSION['serverGroup']);
+	    $serverGroup = $_SESSION['serverGroup'];
+	    define('SERVER_GROUP',$serverGroup);
+	}
 }
 else {	
 	//Failure
@@ -27,4 +44,5 @@ else {
 	$AUTH = 0;
 	$ROLE = '';
 }
+
 ?>

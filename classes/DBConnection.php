@@ -35,8 +35,8 @@ class DBConnection {
 	    $this->sQuery->closeCursor();			
 	    return $res;
 	}
-	elseif (stripos($query, 'insert') === 0 ||  stripos($query, 'update') === 0 || stripos($query, 'delete') === 0) {
-	    if(stripos($query, 'insert') === 0) {
+	elseif (stripos($query, 'insert') === 0 ||  stripos($query,'update') === 0 ||  stripos($query,'UPDATE') === 0 || stripos($query, 'delete') === 0) {
+	    if(stripos(strtolower($query), 'insert') === 0) {
 		return $this->pdo->lastInsertId();
 	    }
 	    $count = $this->sQuery->rowCount();

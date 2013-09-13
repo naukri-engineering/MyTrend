@@ -52,50 +52,125 @@
 						~if $success`<div class='success'>~$success`</div>~/if`
 	
 						~if $f eq '1'`
-                        <div style='background-color: #F9F9F9;text-align:left;'>
-                                <span style='padding-left:2px;'><b>Server Name</b></span>
-                                <span style='padding-left:60px;'><b>Host</b></span>
-                                <span style='padding-left:110px;'><b>Port</b></span>
-                                <span style='padding-left:45px;'><b>Username</b></span>
-                                <span style='padding-left:45px;'><b>Password</b></span>
-                        </div>
+	<table cellpadding="0" cellspacing="0" border="0" class="display" id='table1' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
+            <thead style='background-color:#08C;color:white;text-align:left;'>
+	        <tr>
+		<th>Group</th>
+		<th>Server Name</th>
+		<th>Host</th>
+		<th>Port</th>
+		<th>Status&nbsp;/&nbsp;Edit</th>
+		</tr>
+	    </thead>
+	    <tbody>
+		~section name=i loop=$instanceArr`
+		~if $smarty.section.i.index%2 neq 0`
+		<tr style='background-color: #F2F2F2;'>
+		~else`
+		<tr>
+		~/if`
+		    <td>~$instanceArr[i].group_name`</td>
+		    <td>~$instanceArr[i].name`</td>
+		    <td>~$instanceArr[i].host`</td>
+		    <td>~$instanceArr[i].port`</td>
+		    <td>
+		    ~if $instanceArr[i].status eq '1'`<img src='images/pass.png'>~else`<img src='images/fail.png'>~/if`
+		    &nbsp;&nbsp;
+		    <a href='#' onclick="lightbox('~$instanceArr[i].mysql_id`','~$instanceArr[i].group_name`','~$instanceArr[i].name`','~$instanceArr[i].host`','~$instanceArr[i].port`','~$instanceArr[i].username`','~$instanceArr[i].password`');"><button type="submit" style='height:25px;background: none repeat scroll 0 0 #0088CC;color: #FFFFFF;font-size: 11px;padding: 0 2px;text-indent: 0;width: auto;'>Edit</button></a>
+		    </td>
+		</tr>
+		~/section`
+		<tr align=center>
+		    <td colspan=5 style='padding:0px;'>
+		    <br/>
+		    <a href='#' onclick="lightbox(0,'','','','','','');"><button type="submit" class="srch-button">Add</button></a>
+		    </td>   
+		</tr>
+	    </tbody>
+	</table>
 
-						~section name=i loop=$instanceArr`
-						~if $smarty.section.i.index%2 neq 0`
-						<div style='background-color: #F9F9F9;'>
-						~else`
-						<div>
-						~/if`
-								<form method=post>
-                                <span class="formwrap"><input type=text name='name' value='~$instanceArr[i].name`' style='width:130px;' ></span>
-                                <span class="formwrap"><input type=text name='host' value='~$instanceArr[i].host`' style='width:130px;' ></span>
-                                <span class="formwrap"><input type=text name='port' value='~$instanceArr[i].port`' style='width:60px;'></span>
-                                <span class="formwrap"><input type=text name='username' value='~$instanceArr[i].username`' style='width:100px;'></span>
-                                <span class="formwrap"><input type=password name='password' value='~$instanceArr[i].password`' style='width:110px;'></span>
-								<span>
-								 ~if $instanceArr[i].status eq '1'`<img src='images/pass.png'>~else`<img src='images/fail.png'>~/if`
-								<button type="submit" style='height:25px;background: none repeat scroll 0 0 #0088CC;color: #FFFFFF;font-size: 11px;padding: 0 2px;text-indent: 0;width: auto;'>Update</button>
-								</span>
-								<input type=hidden name=submit value='edit'>
-								<input type=hidden name=f value='1'>
-								<input type=hidden name=mysql_id value='~$instanceArr[i].mysql_id`'>
-								</form>
-						</div>
-						~/section`
-						<div>
-								<form method=post>
-                                <span class="formwrap"><input type=text name='name' value='~$name`' style='width:130px;' ></span>
-                                <span class="formwrap"><input type=text name='host' value='~$host`' style='width:130px;' ></span>
-                                <span class="formwrap"><input type=text name='port' value='~$port`' style='width:60px;'></span>
-                                <span class="formwrap"><input type=text name='username' value='~$username`' style='width:100px;'></span>
-                                <span class="formwrap"><input type=password name='password' value='~$password`' style='width:110px;'></span>
-				<span>&nbsp;&nbsp;&nbsp;&nbsp;
-				</span>
-                                <span><button type="submit" style='height:25px;background: none repeat scroll 0 0 #0088CC;color: #FFFFFF;font-size: 11px;padding: 0 10px;text-indent: 0;width: auto;'>Add</button></span>
-								<input type=hidden name=submit value='add'>
-								<input type=hidden name=f value='1'>
-								</form>
-						</div>
+<script>
+function lightbox(mysql_id,group_name,name,host,port,username,password) {
+    $('#lb_bak, #lb_box').animate({'opacity':'.8'}, 150, 'linear');
+    $('#lb_box').animate({'opacity':'1.00'}, 150, 'linear');
+    $('#lb_bak, #lb_box').css('display', 'block');
+    
+    $('#mysql_id_hidden').val(mysql_id);
+    $('#group_name_id').val(group_name);
+    $('#name_id').val(name);
+    $('#host_id').val(host);
+    $('#port_id').val(port);
+    $('#username_id').val(username);
+    $('#password_id').val(password);
+    if(mysql_id) {
+	$('#action').val('edit');
+    }
+    else {
+	$('#action').val('add');
+    }
+}
+$(document).ready(function(){
+    $('.lb_close').click(function(){
+        $('.lb_bak, .lb_box').animate({'opacity':'0'}, 0, 'linear', function(){$('.lb_bak, .lb_box').css('display', 'none');});
+    });
+});
+</script>
+<style>
+.lb_bak { position:absolute;top:0px;left:0px;width:100%;height:100%;background:#000;opacity:.0;filter:alpha(opacity=0);z-index:50;display:none;}
+.lb_box { position:absolute;top:20%;left:30%;width:500px;height:350px;background:#ffffff;z-index:51;padding:10px;border-radius: 5px;box-shadow:0px 0px 5px #444444;display:none; }
+.lb_close { float:right;margin-right:6px;cursor:pointer; }
+.SColumn {
+    border: 1px solid #E2E2E2; padding:15px 0px; margin:0px 0px 10px 0px;
+}
+.row-main {margin-bottom:10px; clear:both; overflow:hidden}
+.row-label-main {
+    margin-right: 25px;width:150px;float: left;text-align: right;
+}
+.row-box {
+    width: 310px;float:left;
+}
+.row-label {
+    margin-top: 5px !important;display:block;text-align:right;color:black;
+}
+.cl10{overflow:hidden; height:10px; clear:both;}
+</style>
+    <div class="lb_bak" id="lb_bak"></div>
+    <div class="lb_box" id="lb_box" style='height:360px;top:10%;overflow-x: hidden;overflow-y: auto;'><b>Add/Edit Instance</b><div class="lb_close" id='lb_close'>X</div>
+        <div class="cl10"></div>
+        <form method=post id='instanceForm'>
+	<div class='SColumn'>
+            <div class="formrow">
+		<div class='row-label-main'><label for="group_name" class='row-label'>Group Name</label></div> 
+		<span class="formwrap"><input type="text" id='group_name_id' name='group_name'></span>
+            </div>
+            <div class="formrow">
+		<div class='row-label-main'><label for="name" class='row-label'>Server Name</label></div>
+		<span class="formwrap"><input type="text" id='name_id' name='name'></span>
+            </div>
+            <div class="formrow">
+		<div class='row-label-main'><label for="host" class='row-label'>Host</label></div>
+		<span class="formwrap"><input type="text" id='host_id' name='host'></span>
+            </div>
+            <div class="formrow">
+		<div class='row-label-main'><label for="port" class='row-label'>Port<label></div>
+		<span class="formwrap"><input type="text" id='port_id' name='port'></span>
+            </div>
+            <div class="formrow">
+		<div class='row-label-main'><label for="username" class='row-label'>Username</label></div>
+		<span class="formwrap"><input type="text" id='username_id' name='username'></span>
+            </div>
+            <div class="formrow">
+		<div class='row-label-main'><label for="password" class='row-label'>Password</label></div>
+		<span class="formwrap"><input type="password" id='password_id' name='password'></span>
+            </div>
+	</div>
+	<center><button type="submit" class="srch-button">Submit</button></center>
+	<input type=hidden name=f value='1'>
+	<input type=hidden name=mysql_id value='' id='mysql_id_hidden'>
+	<input type=hidden name=submit value='' id='action'>
+	</form>
+    </div>   
+
 						~/if`
 
 <!-- ============= Ignore Databases ============== -->

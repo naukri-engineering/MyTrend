@@ -2,7 +2,13 @@
 	~if $f eq '1'`
 <script id='data1script'>
 $(document).ready(function() {
-    $('#table1').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+    $('#table1').dataTable( {
+	"aaSorting": [[ 0, "asc" ]],
+	"sDom": 'T<"clear">lfrtip',
+	"oTableTools": {
+	    "sSwfPath": "images/copy_csv_xls_pdf.swf"
+	}
+    });
 } );
 </script>
 
@@ -32,7 +38,13 @@ $(document).ready(function() {
 	~if $f eq '2'`
 <script id='data2script'>
 $(document).ready(function() {
-    $('#table2').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+    $('#table2').dataTable( {
+	"aaSorting": [[ 0, "asc" ]],
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+            "sSwfPath": "images/copy_csv_xls_pdf.swf"
+        }
+    });
 } );
 </script>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id='table2' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
@@ -66,7 +78,14 @@ $(document).ready(function() {
 	~if $f eq '3'`
 <script id='data3script'>
 $(document).ready(function() {
-    $('#table3').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+    $('#table3').dataTable( {
+        "aaSorting": [[ 0, "asc" ]],
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+            "sSwfPath": "images/copy_csv_xls_pdf.swf"
+        }
+
+    });
 } );
 </script>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id='table3' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
@@ -97,7 +116,13 @@ $(document).ready(function() {
     ~if $f eq '7'`
 <script id='data1script'>
 $(document).ready(function() {
-    $('#table1').dataTable( {"aaSorting": [[ 0, "asc" ]]});
+    $('#table1').dataTable( {
+	"aaSorting": [[ 0, "asc" ]],
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+            "sSwfPath": "images/copy_csv_xls_pdf.swf"
+        }
+    });
 } );
 </script>
 

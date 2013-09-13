@@ -20,6 +20,7 @@ if(!$f) {
 	$f = 1;
 }
 if($f==1) { //Configure MySQL Instances
+	$group_name = $_POST['group_name'];
 	$name       = $_POST['name'];
 	$host       = $_POST['host'];
 	$port       = $_POST['port'];
@@ -28,7 +29,7 @@ if($f==1) { //Configure MySQL Instances
 	if($_POST['submit'] == 'add') {
 		if(mysql_connect("$host:$port",$username,$password)) {
 			//Add new MySQL Instance
-			$status = $objMyTrend->addMyInstance($name,$host,$port,$username,$password);
+			$status = $objMyTrend->addMyInstance($group_name,$name,$host,$port,$username,$password);
 			if($status) {
 				$success = "$host ($port) Added Successfully !";
 				$host = $port = $username = $password = '';
@@ -45,7 +46,7 @@ if($f==1) { //Configure MySQL Instances
 	else if($_POST['submit'] == 'edit') {
 		$mysql_id = $_POST['mysql_id'];
 		if(mysql_connect("$host:$port",$username,$password)) {
-			$objMyTrend->updateMyInstance($mysql_id,$name,$host,$port,$username,$password);
+			$objMyTrend->updateMyInstance($mysql_id,$group_name,$name,$host,$port,$username,$password);
 			$success = "$host ($port) Updated Successfully !";
 			$host = $port = $username = $password = '';
 		}

@@ -16,9 +16,12 @@ class Processlist {
 	/*
 	 * Get current running processlist.
 	 */
-	public function getProcessList() {
+	public function getProcessList($listtype) {
 		$result = array();
+		if($listtype==1)
 		$result = $this->objDBConnection->queryPDO('show processlist',$this->dbSettings);
+		else
+		$result = $this->objDBConnection->queryPDO('show full processlist',$this->dbSettings);
 		return $result;
 	}
 }

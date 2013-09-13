@@ -142,6 +142,16 @@ class MyStatusVars {
 		$this->objDBConnection->queryPDO($sql,array(),$params);
 	}
 	public function getCompleteStatus($v,$date) {
+                $myIds = array();
+                if(SERVER_GROUP) {
+                    $sql = "SELECT mysql_id FROM `mytrend_mysql_instances` where group_name=:group_name";
+                    $params = array('group_name'=>SERVER_GROUP);
+                    $result = $this->objDBConnection->queryPDO($sql,array(),$params);
+                    foreach($result as $res) {
+                        $myIds[] = $res['mysql_id'];
+                    }  
+                }
+
 		$sql = "select mysql_id,value from mytrend_status_variables where name=:v and date=:date";
 		$params = array('v'=>$v,'date'=>$date);
 		$res = $this->objDBConnection->queryPDO($sql,array(),$params);
@@ -149,7 +159,14 @@ class MyStatusVars {
 		foreach($res as $row) {
 			$mysql_id   = $row['mysql_id'];
 			$value      = $row['value'];
+			if(SERVER_GROUP) { 
+			    if(in_array($mysql_id,$myIds)) {
+				$data[$mysql_id] = array('mysql_id'=>$mysql_id,'value'=>$value);	
+			    }           
+			}
+			else {
 			$data[$mysql_id] = array('mysql_id'=>$mysql_id,'value'=>$value);
+			}
 		}
 		return $data;
 	}

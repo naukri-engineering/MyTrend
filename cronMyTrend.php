@@ -11,12 +11,12 @@ if($argv[1] != 'D') { //Mandatory argument
 if($argv[2]) { //Optional argument - Email Id on which you will recieve the cron status.
 	$email  = $argv[2];
 }
+define('SERVER_GROUP','');
 $objDBConnection       = new DBConnection();
 $objMyTrend = new MyTrend($objDBConnection);
 $instanceArr    = $objMyTrend->getMyInstance();
 $date           = date("Y-m-d",strtotime('-1 day'));
 $log            = '';
-
 foreach($instanceArr as $instance) {
 	$mysql_id	= $instance['mysql_id'];
 	$host		= $instance['host'];
