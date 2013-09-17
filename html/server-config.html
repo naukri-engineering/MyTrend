@@ -12,6 +12,18 @@
 	}
 	</script>
 	~/if`
+<script>
+$(document).ready(function() {
+    $('#table1').dataTable( {
+        "aaSorting": [[ 0, "asc" ]],
+	"iDisplayLength": 1000,
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+            "sSwfPath": "images/copy_csv_xls_pdf.swf"
+        }
+    });
+} );
+</script>
 
 	</head>
 	<body id='mainbody'>
@@ -79,7 +91,8 @@
 			
 					~if $data`
 					<div style='width:880px;overflow:auto;' id='data'>
-						<table border=0 width=100% style='font-size:12px;'>
+						<table width=100% style='font-size:12px;' cellpadding="0" cellspacing="0" border="0" class="display" id='table1' >
+						<thead style='background-color:#08C;color:white;text-align:left;'>
 						<tr style='height:22px;'>
 							<td>&nbsp;</td>
 							~if $f eq '1'`
@@ -99,15 +112,17 @@
 								~/if`
 							~/if`
 						</tr>
-
+						</thead>
+						<tbody>
 						~section name=i loop=$data`
-						<tr style='height:22px;' ~if $data[i].diff eq '1'`bgcolor='#F5A9A9'~/if`>
+						<tr ~if $data[i].diff eq '1'`style="background-color:#F5A9A9;"~/if`>
 							<td class='sc_name'>~$data[i].name`</td>
 							~foreach from=$data[i].value key=k item=v`							
 							<td class='sc_value'>~$v`</td>
 							~/foreach`
 						</tr>
 						~/section`
+						</tbody>
 						</table>
 					</div>
 					~/if`
