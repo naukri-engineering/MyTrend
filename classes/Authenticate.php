@@ -14,29 +14,29 @@ class Authenticate {
 	/*
 	 * Checks for the Passwords
 	 */
-	public function checkPassword($role,$password) {
-		$PASSWORD = $this->getPassword($role);
+	public function checkPassword($username,$password) {
+		$PASSWORD = $this->getPassword($username);
 		if(md5(trim($password)) == trim($PASSWORD)) {
 			$uniqId 			= uniqid();
 			$_SESSION['uniqid'] = $uniqId;
-			$_SESSION['role'] 	= $role;
+			$_SESSION['username'] 	= $username;
 			setcookie("uniqid",$uniqId);
 			return true;
 		}
 		return false;
 	}
 	/*
-	 * Get the Role
+	 * Get the Username
 	 */
-	public function getRole() {
-		return $_SESSION['role'];
+	public function getUsername() {
+		return $_SESSION['username'];
 	}
 	/*
 	 * Get the Password which was set during the Installation
 	 */
-	private function getPassword($role) {
-		$params = array('role'=>$role);
-		$result = $this->objDBConnection->row("SELECT `password` FROM `mytrend_users` WHERE `role`=:role",array(),$params);
+	private function getPassword($username) {
+		$params = array('username'=>$username);
+		$result = $this->objDBConnection->row("SELECT `password` FROM `mytrend_users` WHERE `role`=:username",array(),$params);
 		return $result['password'];
 	}
 	/*
@@ -55,6 +55,10 @@ class Authenticate {
 		if($_COOKIE['uniqid'] == $_SESSION['uniqid'])
 			return true;
 		return false;
+	}
+	public function getOtherUsers() {
+		$result = $this->objDBConnection->queryPDO("SELECT `role` as username,`password` FROM `mytrend_users` WHERE `role` not in('superadmin','admin')",array(),array());
+		return $result;		
 	}
 }
 ?>

@@ -6,7 +6,7 @@
 require_once "include.php";
 
 //Check for the authentication..
-if(!$AUTH || $ROLE == 'admin') {
+if(!$AUTH || $ROLE != 'superadmin') {
 	$smarty->display('index.html');
 	die;
 }

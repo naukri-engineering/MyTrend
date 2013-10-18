@@ -146,4 +146,14 @@ function setPassword() {
     $('#password').val('');
     $('#password').prop('type', 'password'); 
 }
+function setUsername() {
+	var val;
+	val = $('input[name=username]:checked', '#frm').val();
+	if(val=='other') {
+		$("#otherUsername").show();
+	}	
+	else {
+		$("#otherUsername").css("display","none");
+	}
+}
 </script>

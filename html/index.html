@@ -9,20 +9,38 @@
 				~include file=_header.html`
 				<div id="policy">
 					<div class="column">
-						~if $error`<div class='error'>~$error`</div>~/if`
+						~if $error`<div class='errorM'>~$error`</div>~/if`
 						~if $success`<div class='success'>~$success`</div>~/if`
 						<div id='container'></div>	
 						~if $AUTH neq '1'`
                         <div class="formrow">
-							<center>
 							<form name=frm id=frm method=post action=index.php>
-							Login as <input type=radio name=role value='superadmin' checked>SuperAdmin
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type=radio name=role value='admin'>Admin<br/><br/>
-                            <span class="formwrap"><input type="text" value='Password' id='password' style='width:290px;' name='password' onClick="setPassword()" autocomplete='off'></span><br/>
+							<div style='margin-left:10px;margin:0 9px 0 350px;'>
+							Login as <br/>
+							<div style='margin-left:50px;'>
+							<input type=radio name=username value='superadmin' checked style='margin-top:10px;' onClick='setUsername();'>SuperAdmin<br/>
+							<input type=radio name=username value='admin' style='margin-top:15px;' onClick='setUsername();'>Admin
+							~if $otherUsers`
+							<br/>
+							<input type=radio name=username value='other' style='margin-top:15px;' onClick='setUsername();'>Other&nbsp;&nbsp;&nbsp;
+							<select style='width:150px;display:none;' name=otherUsername id=otherUsername>
+							~section name=i loop=$otherUsers`
+							<option value='~$otherUsers[i].username`'>~$otherUsers[i].username`</option>
+							~/section`
+							</select>
+							~/if`
+							<br/>
+							</div>
+							<br/>Password<br/>
+							<div style='margin-left:50px;'>
+								<span class="formwrap" style='margin-top:15px;'>
+									<input type="text" value='Password' id='password' style='width:210px;' name='password' onClick="setPassword()" autocomplete='off'>
+								</span>
+								<br/>
+							</div>
 							<button class="srch-button" type="submit" name='submit' value='1' >Login</button>
+							</div>
 							</form>
-							</center>
                         </div>
 						~/if`
 					</div>

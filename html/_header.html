@@ -8,9 +8,9 @@
     <span class="formwrap">
     <select name="serverGroup" id="serverGroup" style='width:200px;'>
 	<option value="">Choose Server Group</option>
-	~section name=i loop=$serverGroups`
-	<option value="~$serverGroups[i].group_name`" ~if $serverGroup eq $serverGroups[i].group_name`selected~/if`>~$serverGroups[i].group_name`</option>
-	~/section`
+	~foreach from=$serverGroups item=group_name`
+	<option value="~$group_name`" ~if $serverGroup eq $group_name`selected~/if`>~$group_name`</option>
+	~/foreach`
     </select>
     &nbsp;
     <button class="srch-button" type="submit" name='submit' value='serverGroup' style='padding:4px 3px;'>GO</button>
@@ -28,12 +28,13 @@
 			<li id="pn-design"><a href="replication.php">~if $PageSelected eq '5'`<b>Replication</b>~else`Replication~/if`</a></li>  
 			<li id="pn-design"><a href="processlist.php">~if $PageSelected eq '6'`<b>Processlist</b>~else`Processlist~/if`</a></li>  
 			<li id="pn-design"><a href="changelog.php">~if $PageSelected eq '9'`<b>Change Log</b>~else`Change Log~/if`</a></li>  
-			~if $role neq 'admin' `
+			~if $username eq 'superadmin' `
 				<li id="pn-features"><a href="configure.php">~if $PageSelected eq '7'`<b>Configure</b>~else`Configure~/if`</a></li>
 			~/if`
 			~if $AUTH eq '1'`
-				~if $role neq 'admin' `
-					<li id="pn-features"><a href="password.php">~if $PageSelected eq '8'`<b>Password</b>~else`Password~/if`</a></li>
+				~if $username eq 'superadmin' `
+				    <li id="pn-features"><a href="manage-users.php">~if $PageSelected eq '10'`<b>Manage Users</b>~else`Manage Users~/if`</a></li>
+				    <li id="pn-features"><a href="password.php">~if $PageSelected eq '8'`<b>Password</b>~else`Password~/if`</a></li>
 				~/if`
 				<li id="pn-features"><a href="logout.php">Logout</a></li>
 			~/if`

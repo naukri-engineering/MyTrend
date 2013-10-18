@@ -39,7 +39,7 @@
 							<br/>
     	                  	<!--http://css.dzone.com/news/css-message-boxes-different-me -->
         	               	~if $error`
-								<div class="error">~$error`</div>
+								<div class="errorM">~$error`</div>
 							~/if`
                         		<div class="formrow">
 	                            <form>
@@ -62,7 +62,7 @@
 						~if $step eq '2'`
 	                        <h2>Set up database</h2> (Please enter your database details for the first time setup)
 							~if $errors|@count || $error`
-							<div class='error'>
+							<div class='errorM'>
 								<ul id='errors' style='margin:0px;padding:0px;'>
 									~section name=i loop=$errors`
 									<li>~$errors[i]`</li>
@@ -117,7 +117,7 @@
 						~if $step eq '3'`
 							<h2>Choose Password <span style='font-size:12px;font-weight:normal;'> (6 characters or more! Be tricky)</span></h2>
 							~if $error`
-								<div class="error">~$error`</div>
+								<div class="errorM">~$error`</div>
 							~/if`
 							<form method=post>
 							<input type=hidden name=submit value='submit'>

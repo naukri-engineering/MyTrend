@@ -313,3 +313,47 @@ function validation(page,f) {
     return success;	
 }
 function gbi(element) {return document.getElementById(element); }
+
+
+$(document).ready(function(){
+    $('.lb_close').click(function(){
+        $('.lb_bak, .lb_box').animate({'opacity':'0'}, 0, 'linear', function(){$('.lb_bak, .lb_box').css('display', 'none');});
+    });
+});
+
+function lightbox_adduser() {
+    $('#adduserForm')[0].reset();
+    $('#lb_bak_adduser, #lb_box_adduser').animate({'opacity':'.8'}, 150, 'linear');
+    $('#lb_box_adduser').animate({'opacity':'1.00'}, 150, 'linear');
+    $('#lb_bak_adduser, #lb_box_adduser').css('display', 'block');
+}
+function lightbox_server_group(username) {
+    $('#server_groupForm')[0].reset();
+    $('#lb_bak_server_group, #lb_box_server_group').animate({'opacity':'.8'}, 150, 'linear');
+    $('#lb_box_server_group').animate({'opacity':'1.00'}, 150, 'linear');
+    $('#lb_bak_server_group, #lb_box_server_group').css('display', 'block');
+    var config = {
+      '.chzn-select'           : {}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+    $('#server_groupFormUsername').val(username);
+}
+function lightbox_password(username) {
+    $('#passwordForm')[0].reset();
+    $('#lb_bak_password, #lb_box_password').animate({'opacity':'.8'}, 150, 'linear');
+    $('#lb_box_password').animate({'opacity':'1.00'}, 150, 'linear');
+    $('#lb_bak_password, #lb_box_password').css('display', 'block');
+    $('#passwordFormUsername').val(username);
+    $('#usernameLabel').html(username);
+}
+function lightbox_delete(url) {
+    $('#lb_bak_delete, #lb_box_delete').animate({'opacity':'.8'}, 150, 'linear');
+    $('#lb_box_delete').animate({'opacity':'1.00'}, 150, 'linear');
+    $('#lb_bak_delete, #lb_box_delete').css('display', 'block');
+    $('#url_delete').attr('href',url);
+}
+function lightbox_close() {
+    $('.lb_bak, .lb_box').animate({'opacity':'0'}, 0, 'linear', function(){$('.lb_bak, .lb_box').css('display', 'none');});
+}

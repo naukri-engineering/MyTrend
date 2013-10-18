@@ -17,20 +17,20 @@ $authObj	= new Authenticate(new DBConnection());
 if($authObj->authenticate()) {	
 	//Success
 	$smarty->assign("AUTH",1);
-	$smarty->assign("role",$authObj->getRole());
+	$smarty->assign("username",$authObj->getUsername());
 	$AUTH = 1;
-	$ROLE = $authObj->getRole();
+	$ROLE = $authObj->getUsername();
 
 	if($_POST['submit'] == 'serverGroup') {
 	    $_SESSION['serverGroup'] = $_POST['serverGroup'];
 	}
 	$mtObj	    = new MyTrend(new DBConnection());
-	$serverGroups= $mtObj->getServerGroup();
+	$serverGroups= $mtObj->getServerGroup($ROLE);
 	$smarty->assign('serverGroups',$serverGroups);
 	if(!$_SESSION['serverGroup']) {
 	    $smarty->assign('serverGroup','');
 	    $serverGroup = '';
-	    define('SERVER_GROUP','');
+	    define('SERVER_GROUP',implode("|X|",$serverGroups));
 	}
 	else {
 	    $smarty->assign('serverGroup',$_SESSION['serverGroup']);
@@ -43,6 +43,6 @@ else {
 	$smarty->assign("AUTH",0);
 	$AUTH = 0;
 	$ROLE = '';
+	$smarty->assign('otherUsers',$authObj->getOtherUsers());
 }
-
 ?>

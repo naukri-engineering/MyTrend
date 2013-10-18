@@ -144,8 +144,9 @@ class MyStatusVars {
 	public function getCompleteStatus($v,$date) {
                 $myIds = array();
                 if(SERVER_GROUP) {
-                    $sql = "SELECT mysql_id FROM `mytrend_mysql_instances` where group_name=:group_name";
-                    $params = array('group_name'=>SERVER_GROUP);
+		    $allowedGroup = str_replace("|X|","','",SERVER_GROUP);
+                    $sql = "SELECT mysql_id FROM `mytrend_mysql_instances` where group_name in('$allowedGroup')";
+                    //$params = array('group_name'=>SERVER_GROUP);
                     $result = $this->objDBConnection->queryPDO($sql,array(),$params);
                     foreach($result as $res) {
                         $myIds[] = $res['mysql_id'];
