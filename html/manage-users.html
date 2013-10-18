@@ -1,0 +1,134 @@
+<html xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+    ~include file=_title.html`
+</head>
+<body id='mainbody'>
+    <div id="main">
+	<div class="content" id="content">
+	    ~include file=_header.html`
+	    <div id="policy">
+		<div class="column">
+		    <h3>Manage Users</h3>
+		    <!--<p>Something here ....</p>-->
+		    ~if $error`<div class='errorM'>~$error`</div>~/if`
+		    ~if $success`<div class='success'>~$success`</div>~/if`
+		    ~if $warning`<div class='warning'>~$warning`</div>~/if`
+		    <div style='float:right;margin-bottom:10px;'>
+		    <a href='#' onClick="lightbox_adduser();"><button type="submit" name='adduser' class="srch-button">Add User</button></a>
+		    </div>
+		    ~if $users`
+		    <table cellpadding="0" cellspacing="0" border="0" class="display" id='table1' style='font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;'>
+			<thead style='background-color:#08C;color:white;text-align:left;'>
+			<tr>
+			    <th>Username</th>
+			    <th>Assigned Server Groups</th>
+			    <th>Assign Server Group(s)</th>
+			    <th>Change Password</th>
+			    <th>Delete User</th>
+			</tr>
+			</thead>
+			<tbody>
+			    ~section name=i loop=$users`
+			    ~if $smarty.section.i.index%2 neq 0`
+			    <tr style='background-color: #F2F2F2;'>
+			    ~else`
+			    <tr>
+			    ~/if`
+			    <td valign=top>~$users[i].user`</td> 
+			    <td>
+			    ~foreach from=$users[i].server_group item=group`
+				~$group`<br/>	
+			    ~/foreach`
+			    </td>
+			    <td valign=top align=center><a href='#' onClick="lightbox_server_group('~$users[i].user`');"><img src='images/server_group.png' height=16 width=16 /></a></td>
+			    <td valign=top align=center><a href='#' onClick="lightbox_password('~$users[i].user`');"><img src='images/password.png' height=16 width=16 /></a></td>
+			    <td valign=top align=center><a href='#' onClick="lightbox_delete('manage-users.php?action=delete&username=~$users[i].user`');"><img src='images/delete_user.gif' height=16 width=16 /></a></td>
+			    </tr>
+			    ~/section`
+			</tbody>
+		    </table>   
+		    ~/if`
+		</div>
+	</div>
+    </div>
+~include file=_delete.html`
+
+<!-- Add User | Start -->
+<div class="lb_bak" id="lb_bak_adduser"></div>
+<div class="lb_box" id="lb_box_adduser" style='height:300px;top:10%;overflow-x: hidden;overflow-y: auto;'><b>Add User</b>
+    <div class="lb_close" id='lb_close'>X</div>
+    <div class="cl10"></div>
+    <form method=post id='adduserForm'>
+        <div class='SColumn'>
+            <div class="formrow">
+                <div class='row-label-main'><label for="username" class='row-label'>Username</label></div>
+                <span class="formwrap"><input type="text" id='username' name='username'></span>
+            </div>
+            <div class="formrow">
+                <div class='row-label-main'><label for="password" class='row-label'>New Password</label></div>
+                <span class="formwrap"><input type="password" id='password' name='password'></span>
+            </div>
+            <div class="formrow">
+                <div class='row-label-main'><label for="confirmPassword" class='row-label'>Confirm Password</label></div>
+                <span class="formwrap"><input type="password" id='confirmPassword' name='confirmPassword'></span>
+            </div>
+        </div>
+        <center><button type="submit" class="srch-button">Add User</button></center>
+        <input type=hidden name='action' value='adduser'>
+    </form>
+</div>
+<!-- Add User | Start -->
+
+
+<!-- Change Password | Start -->
+<div class="lb_bak" id="lb_bak_password"></div>
+<div class="lb_box" id="lb_box_password" style='height:280px;top:10%;overflow-x: hidden;overflow-y: auto;'><b>Change Password</b>
+    <div class="lb_close" id='lb_close'>X</div>
+    <div class="cl10"></div>
+    <form method=post id='passwordForm'>
+	<input type=hidden name=username value='' id='passwordFormUsername'>
+	<div class='SColumn'>
+	    <div class="formrow">
+		<div class='row-label-main'><label for="usernameLabel" class='row-label'>Username</label></div>
+		<span class="formwrap" id='usernameLabel' style='background:none;'></span>
+	    </div>
+	    <div class="formrow">
+		<div class='row-label-main'><label for="password" class='row-label'>New Password</label></div>
+		<span class="formwrap"><input type="password" id='password' name='password'></span>
+	    </div>
+	    <div class="formrow">
+		<div class='row-label-main'><label for="confirmPassword" class='row-label'>Confirm Password</label></div>
+		<span class="formwrap"><input type="password" id='confirmPassword' name='confirmPassword'></span>
+	    </div>
+	</div>
+	<center><button type="submit" class="srch-button">Change Password</button></center>
+	<input type=hidden name='action' value='changePassword'>
+    </form>
+</div>
+<!-- Change Password | Start -->
+
+<!-- Assign Server Groups | Start -->
+<div class="lb_bak" id="lb_bak_server_group"></div>
+<div class="lb_box" id="lb_box_server_group" style='height:200px;top:10%;overflow-x: hidden;overflow-y: auto;'><b>Assign Server Group(s)</b>
+    <div class="lb_close" id='lb_close'>X</div>
+    <div class="cl10"></div>
+    <form method=post id='server_groupForm'>
+	<input type=hidden name=username value='' id='server_groupFormUsername'>
+        <div class='SColumn'>
+            <div class="formrow">
+                <div class='row-label-main'><label for="server_group" class='row-label'>Choose Server Groups</label></div>
+		    <select id='userServerGroup' name='userServerGroup[]' data-placeholder="Choose Server Groups ..." class="chzn-select" multiple>
+		    ~foreach from=$serverGroups item=group_name`
+		    <option value="~$group_name`" ~if $serverGroup eq $group_name`selected~/if`>~$group_name`</option>
+		    ~/foreach`
+		    </select>
+            </div>
+        </div>
+        <center><button type="submit" class="srch-button">Submit</button></center>
+        <input type=hidden name='action' value='assignServerGroup'>
+    </form>
+</div>
+<!-- Assign Server Groups | Start -->
+
+</body>
+</html>   
