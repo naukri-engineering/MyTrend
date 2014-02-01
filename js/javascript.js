@@ -12,6 +12,15 @@ function getGraph_Status(divId,mysql_id,v,date1,date2,f) {
 	    count++;
 	}
     }
+    if(f==7) {
+	var oSelect=gbi('instance');
+	var mysql_id = '';
+	for(var i=0;i<oSelect.options.length;i++) {
+	    if(oSelect.options[i].selected) {
+		mysql_id = mysql_id + oSelect.options[i].value + ':';
+	    }
+	}
+    }
     var url = "mtdata.php?v="+v+"&mysql_id="+mysql_id+"&action=graph&date1="+date1+"&date2="+date2+"&f="+f;
     ajax(url,'graph',divId);
 }
@@ -237,9 +246,24 @@ function validation(page,f) {
     }
     if((page=='stats' && (f==2 || f==3)) || (page=='graph' && (f==1 || f==2 || f==3 || f==5 || f==6 || f==7)) || (page=='server-config' && f==2)) {
 	gbi('instanceRow').style.background = defaultcolor;
-	if(gbi('instance').value=='-1') {	
-	    success = false;
-	    gbi('instanceRow').style.background = errorcolor;
+	if(page=='graph' && f==7) {
+	    var oSelect=gbi('instance');
+	    var count=0;
+	    for(var i=0;i<oSelect.options.length;i++) {
+		if(oSelect.options[i].selected) {
+		    count++;
+		}
+	    }
+	    if(count==0) {
+		success = false;
+		gbi('instanceRow').style.background = errorcolor;
+	    }
+	}
+	else {
+	   if(gbi('instance').value=='-1') {	
+		success = false;
+		gbi('instanceRow').style.background = errorcolor;
+	    }
 	}
     }
     if((page=='stats' && f==3) || (page=='graph' && (f==2 || f==3 || f==6))) {

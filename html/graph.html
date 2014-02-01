@@ -23,7 +23,7 @@ $(function () {
                 },
                 min: 0,
                 minorGridLineWidth: 0,
-                gridLineWidth: 0,
+                gridLineWidth: 1,
                 alternateGridColor: null,
             },
             plotOptions: {
@@ -59,7 +59,14 @@ $(function () {
                 menuItemStyle: {
                     fontSize: '10px'
                 }
-            }
+            },
+	    exporting: {
+		buttons: {
+		    exportButton: {
+			align: 'left',
+		    }
+		}
+	    }
         });
     });
 });

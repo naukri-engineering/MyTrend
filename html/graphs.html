@@ -59,8 +59,8 @@
 				<label for="">MySQL Instance</label>
 				<span class="formwrap" id='instanceRow'>
 
-				<select onblur="getDatabase(this.value,'database');" id='instance' name='instance'>
-				<option value="-1">Choose MySQL Instance ...</option>
+				<select onblur="getDatabase(this.value,'database');" ~if $f neq '7'`id='instance' name='instance'~else`id='instance' name='instance[]' multiple size=5~/if`>
+				~if $f neq '7'`<option value="-1">Choose MySQL Instance ...</option>~/if`
 				~section name=i loop=$instanceArr`
 				<option value="~$instanceArr[i].mysql_id`" ~if $instanceArr[i].mysql_id eq $mysql_id`selected~/if`>~$instanceArr[i].host` (~$instanceArr[i].port`) - ~if $instanceArr[i].name` ~$instanceArr[i].name` ~/if`</option>
 				~/section`

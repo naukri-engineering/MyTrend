@@ -106,10 +106,12 @@ switch($action) {
 			$series = rtrim($series,",");
 		}
 		elseif($f==7) {
+			$mysql_id = trim($mysql_id,':');
+			$mysql_id = explode(':',$mysql_id);
 			$v = trim($v,':');
 			$v = explode(':',$v);
-			if(count($v)==1) {
-				$data = $objMyStatusVars->getMySQLVariableStatus($mysql_id,$v[0],$date1,$date2);
+			if(count($v)==1 && count($mysql_id)==1) {
+				$data = $objMyStatusVars->getMySQLVariableStatus($mysql_id[0],$v[0],$date1,$date2);
 				foreach($data as $val) {
 					$series .= $val['value'].",";
 				}
@@ -118,14 +120,21 @@ switch($action) {
 			}
 			else {
 				$series_data = array();
-				foreach($v as $variable) {
+				foreach($mysql_id as $myId) {
+				    foreach($v as $variable) {
 					$series  = '';
-					$data = $objMyStatusVars->getMySQLVariableStatus($mysql_id,$variable,$date1,$date2);
+					$data = $objMyStatusVars->getMySQLVariableStatus($myId,$variable,$date1,$date2);
 					foreach($data as $val) {
 						$series .= $val['value'].",";
 					}
 					$series = rtrim($series,",");
-					$series_data[] = array('series'=>$series,'label'=>$variable);
+					$mysqlInstance = $objMyTrend->getMyInstance($myId);
+					$Instance = $mysqlInstance[0]['host'].":".$mysqlInstance[0]['port'];
+					if($mysqlInstance[0]['name']) {
+					    $Instance .= " - ".$mysqlInstance[0]['name'];
+					}
+    					$series_data[] = array('series'=>$series,'label'=>$Instance.'('.$variable.')');
+				    }
 				}
 				$smarty->assign("data",$series_data);
 				$smarty->assign('select','multiple');
